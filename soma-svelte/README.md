@@ -16,6 +16,15 @@ npm run dev               # http://localhost:5173
 
 El dictado usa el reconocimiento de voz del navegador: funciona en Chrome/Edge, en `localhost` o con HTTPS.
 
+## En la red local (para que otros entren)
+
+```
+npm run lan               # https://<ip-de-esta-máquina>:4443
+```
+
+Usa un certificado autofirmado (aceptar la advertencia del navegador): sin HTTPS los navegadores no habilitan
+el micrófono cuando se entra desde otro equipo.
+
 ## Producción (servidor)
 
 ```
