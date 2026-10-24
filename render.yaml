@@ -15,7 +15,5 @@ services:
         value: "22"
       - key: PROTOCOL_HEADER
         value: x-forwarded-proto
-      - key: HOST_HEADER
-        value: x-forwarded-host
       - key: OPENROUTER_API_KEY
         sync: false
