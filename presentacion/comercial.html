@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>SOMA comercial</title>
+<style>
+  :root {
+    --bg0: #041413; --bg1: #08221f; --teal: #14b8a6; --teal-d: #0f766e; --teal-l: #5eead4;
+    --ink: #f0fdfa; --muted: #9fbfba; --card: rgba(255,255,255,0.055); --line: rgba(94,234,212,0.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg0); }
+  body { font-family: "Inter", "Noto Sans", sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  #stage { position: absolute; inset: 0; background:
+      radial-gradient(1200px 800px at 80% 10%, rgba(20,184,166,0.16), transparent 60%),
+      radial-gradient(900px 700px at 10% 100%, rgba(15,118,110,0.22), transparent 60%),
+      linear-gradient(160deg, var(--bg1), var(--bg0)); }
+  .scene { position: absolute; inset: 0; opacity: 0; }
+  .center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .h1 { font-size: 104px; font-weight: 800; letter-spacing: -3px; line-height: 1.05; }
+  .h2 { font-size: 76px; font-weight: 800; letter-spacing: -2px; line-height: 1.08; }
+  .sub { font-size: 44px; font-weight: 500; color: var(--muted); line-height: 1.3; }
+  .accent { color: var(--teal-l); }
+  .brand { position: absolute; left: 80px; top: 64px; display: flex; align-items: center; gap: 16px; font-weight: 800; font-size: 34px; letter-spacing: 6px; color: var(--ink); }
+  .dot { width: 22px; height: 22px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, var(--teal-l), var(--teal-d)); box-shadow: 0 0 24px rgba(20,184,166,.7); }
+
+  /* scene 2: scattered */
+  .chip { position: absolute; padding: 26px 38px; border-radius: 22px; background: var(--card); border: 1.5px solid rgba(255,255,255,0.10); font-size: 38px; font-weight: 600; color: #d6e7e4; display: flex; align-items: center; gap: 18px; box-shadow: 0 20px 50px rgba(0,0,0,.35); }
+  .chip .ic { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; font-size: 28px; font-weight: 800; color: #041413; }
+
+  /* phone */
+  .phone { position: absolute; right: 190px; top: 70px; width: 520px; height: 940px; border-radius: 64px; background: #0b1f1d; border: 3px solid rgba(94,234,212,0.25); box-shadow: 0 40px 120px rgba(0,0,0,.6), 0 0 0 12px #06100f; overflow: hidden; }
+  .phone .top { padding: 46px 36px 18px; font-size: 30px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; }
+  .phone .top small { font-size: 20px; color: var(--muted); font-weight: 600; }
+  .tabs { display: flex; gap: 8px; padding: 0 30px 18px; }
+  .tab { font-size: 18px; font-weight: 700; padding: 10px 14px; border-radius: 999px; background: rgba(255,255,255,0.06); color: var(--muted); }
+  .tab.on { background: var(--teal-d); color: white; }
+  .feed { position: absolute; left: 24px; right: 24px; top: 170px; bottom: 140px; overflow: hidden; }
+  .ev { position: absolute; left: 0; right: 0; padding: 18px 22px; border-radius: 22px; background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.08); }
+  .ev .tag { display: inline-block; font-size: 17px; font-weight: 800; padding: 6px 12px; border-radius: 8px; margin-bottom: 10px; letter-spacing: .3px; }
+  .ev .tx { font-size: 23px; font-weight: 500; line-height: 1.3; color: #e6f4f1; }
+  .ev .when { font-size: 17px; color: var(--muted); margin-top: 8px; font-weight: 600; }
+  .ev.pin { border-color: rgba(94,234,212,0.55); background: rgba(20,184,166,0.12); }
+  .bar { position: absolute; left: 20px; right: 20px; bottom: 30px; height: 92px; display: flex; align-items: center; gap: 14px; }
+  .bar .input { flex: 1; height: 80px; border-radius: 40px; background: rgba(255,255,255,0.08); display: flex; align-items: center; padding: 0 26px; gap: 6px; font-size: 21px; color: var(--muted); overflow: hidden; }
+  .wbar { width: 6px; border-radius: 3px; background: var(--teal-l); }
+  .mic { width: 88px; height: 88px; border-radius: 50%; background: var(--teal); display: grid; place-items: center; box-shadow: 0 0 0 0 rgba(20,184,166,.5); }
+  .ring { position: absolute; right: 0; width: 88px; height: 88px; border-radius: 50%; border: 3px solid var(--teal-l); }
+
+  /* scene 4 views */
+  .views { position: absolute; left: 90px; right: 90px; top: 300px; display: grid; grid-template-columns: 1fr 1fr 1.25fr; gap: 36px; }
+  .view { border-radius: 32px; background: var(--card); border: 1.5px solid rgba(255,255,255,0.09); padding: 38px 36px; height: 600px; overflow: hidden; }
+  .view h3 { font-size: 40px; font-weight: 800; letter-spacing: -.5px; margin-bottom: 8px; }
+  .view p.d { font-size: 24px; color: var(--muted); margin-bottom: 26px; font-weight: 500; }
+  .row { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-top: 1px solid rgba(255,255,255,0.07); font-size: 25px; font-weight: 500; color: #dcefeb; }
+  .row .b { width: 14px; height: 14px; border-radius: 50%; flex: none; }
+  .num { width: 42px; height: 42px; border-radius: 12px; background: rgba(20,184,166,0.18); color: var(--teal-l); font-weight: 800; font-size: 22px; display: grid; place-items: center; flex: none; }
+  .pp { padding: 14px 0; border-top: 1px solid rgba(255,255,255,0.07); }
+  .pp .t { display: flex; align-items: center; gap: 16px; font-size: 27px; font-weight: 700; }
+  .pp .s { margin: 8px 0 0 58px; font-size: 22px; color: var(--muted); font-weight: 500; line-height: 1.35; }
+  .pp .s b { color: var(--teal-l); font-weight: 700; }
+  .disc { position: absolute; left: 0; right: 0; bottom: 70px; text-align: center; font-size: 30px; color: var(--muted); font-weight: 500; }
+  .disc b { color: var(--ink); }
+
+  /* scene 5 agents */
+  .hub { position: absolute; left: 1210px; top: 540px; width: 250px; height: 250px; margin: -125px 0 0 -125px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #1fd1bc, var(--teal-d) 70%); display: grid; place-items: center; font-size: 52px; font-weight: 900; letter-spacing: 6px; box-shadow: 0 0 120px rgba(20,184,166,.45); }
+  .agent { position: absolute; width: 300px; height: 96px; margin: -48px 0 0 -150px; border-radius: 26px; background: #0f2a27; border: 1.5px solid rgba(94,234,212,0.35); display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 700; }
+  svg.links { position: absolute; inset: 0; }
+
+  /* scene 6 why */
+  .why { display: flex; flex-direction: column; gap: 30px; margin-top: 60px; text-align: left; }
+  .why .it { display: flex; align-items: center; gap: 30px; font-size: 50px; font-weight: 700; letter-spacing: -.5px; }
+  .chk { width: 64px; height: 64px; border-radius: 50%; background: var(--teal); display: grid; place-items: center; flex: none; }
+  .why .it span.m { color: var(--muted); font-weight: 500; }
+
+  .logo { font-size: 200px; font-weight: 900; letter-spacing: 30px; margin-right: -30px; background: linear-gradient(180deg, #ffffff, var(--teal-l)); -webkit-background-clip: text; color: transparent; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1. Gancho -->
+  <section class="scene center" id="s1" data-start="0" data-end="4.5">
+    <div class="h1" data-in="0.2">¿Te acordás qué te dolía</div>
+    <div class="h1 accent" data-in="0.55">hace tres meses?</div>
+    <div class="sub" data-in="2.0" style="margin-top:56px;font-size:56px">Casi nadie se acuerda.</div>
+  </section>
+
+  <!-- 2. Problema -->
+  <section class="scene" id="s2" data-start="4.5" data-end="9">
+    <div class="chip" data-float="0" style="left:150px;top:150px"><div class="ic" style="background:#fbbf24">▤</div>Estudios en papel</div>
+    <div class="chip" data-float="1" style="left:1270px;top:120px"><div class="ic" style="background:#f87171">PDF</div>Resultados en PDF</div>
+    <div class="chip" data-float="2" style="left:210px;top:790px"><div class="ic" style="background:#4ade80">✆</div>Chats de WhatsApp</div>
+    <div class="chip" data-float="3" style="left:1300px;top:800px"><div class="ic" style="background:#a5b4fc">?</div>Lo que te acordás</div>
+    <div class="center" style="position:absolute;inset:0">
+      <div class="h2" data-in="0.5">Tu salud queda <span class="accent">desparramada.</span></div>
+      <div class="sub" data-in="1.5" style="margin-top:40px;font-size:50px">Y tu médico no tiene tu historia a mano.</div>
+    </div>
+  </section>
+
+  <!-- 3. Solución -->
+  <section class="scene" id="s3" data-start="9" data-end="15">
+    <div style="position:absolute;left:150px;top:0;bottom:0;width:1020px;display:flex;flex-direction:column;justify-content:center">
+      <div class="sub" data-in="0.1" style="color:var(--teal-l);font-weight:800;font-size:34px;letter-spacing:6px;margin-bottom:26px">CON SOMA</div>
+      <div class="h2" data-in="0.25" style="font-size:92px">Se lo contás.</div>
+      <div class="sub" data-in="0.9" style="margin-top:34px">Como un audio de WhatsApp:<br>“me siento mal”, “fui al médico”,<br>“el lunes tengo turno”.</div>
+      <div class="h2 accent" data-in="3.0" style="margin-top:56px;font-size:66px">Y queda todo en orden.</div>
+    </div>
+    <div class="phone" data-in="0.2">
+      <div class="top">Mi historial <small>SOMA</small></div>
+      <div class="tabs"><div class="tab on">Todo</div><div class="tab">Síntomas</div><div class="tab">Consultas</div><div class="tab">Estudios</div></div>
+      <div class="feed" id="feed">
+        <div class="ev pin" data-ev="3"><span class="tag" style="background:#5eead4;color:#063">PRÓXIMA CITA</span><div class="tx">Cardiólogo, lunes 10:00</div><div class="when">Fijada arriba</div></div>
+        <div class="ev" data-ev="2"><span class="tag" style="background:#c4b5fd;color:#2e1065">ESTUDIOS</span><div class="tx">Me dieron los análisis de sangre</div><div class="when">Hoy, 18:40 · PDF adjunto</div></div>
+        <div class="ev" data-ev="1"><span class="tag" style="background:#93c5fd;color:#0c2a5a">CONSULTA MÉDICA</span><div class="tx">Gastritis. Dejar el café por un mes.</div><div class="when">Ayer, 11:15</div></div>
+        <div class="ev" data-ev="0"><span class="tag" style="background:#fcd34d;color:#4a2c00">CÓMO ME SIENTO</span><div class="tx">Me siento mal, comí milanesa.</div><div class="when">Martes, 22:05</div></div>
+      </div>
+      <div class="bar">
+        <div class="input" id="wave"></div>
+        <div style="position:relative;width:88px;height:88px">
+          <div class="ring" id="ring"></div>
+          <div class="mic" id="mic"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#041413" stroke-width="2.4" stroke-linecap="round"><rect x="9" y="2.5" width="6" height="12" rx="3" fill="#041413"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3.5"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Tres vistas -->
+  <section class="scene" id="s4" data-start="15" data-end="20.8">
+    <div class="center" style="position:absolute;left:0;right:0;top:110px">
+      <div class="h2" data-in="0.1">Todo tu historial, <span class="accent">a mano</span></div>
+    </div>
+    <div class="views">
+      <div class="view" data-in="0.4">
+        <h3>Historial</h3><p class="d">Lo que te pasó, en orden</p>
+        <div class="row" data-in="0.9"><span class="b" style="background:#5eead4"></span>Lunes · cita con cardiólogo</div>
+        <div class="row" data-in="1.0"><span class="b" style="background:#c4b5fd"></span>Hoy · análisis de sangre</div>
+        <div class="row" data-in="1.1"><span class="b" style="background:#93c5fd"></span>Ayer · consulta: gastritis</div>
+        <div class="row" data-in="1.2"><span class="b" style="background:#fcd34d"></span>Martes · me sentí mal</div>
+        <div class="row" data-in="1.3"><span class="b" style="background:#fcd34d"></span>Domingo · dolor de cabeza</div>
+      </div>
+      <div class="view" data-in="0.6">
+        <h3>Estudios</h3><p class="d">Organizados y a mano</p>
+        <div class="row" data-in="1.4"><span class="num">🩸</span>Análisis de sangre</div>
+        <div class="row" data-in="1.5"><span class="num">◐</span>Ecografía abdominal</div>
+        <div class="row" data-in="1.6"><span class="num">♡</span>Electrocardiograma</div>
+        <div class="row" data-in="1.7"><span class="num">℞</span>Recetas</div>
+      </div>
+      <div class="view" data-in="0.8" style="border-color:rgba(94,234,212,0.4);background:rgba(20,184,166,0.08)">
+        <h3>Posibles problemas · <span class="accent">Top 10</span></h3><p class="d">Y qué estudio te sirve para descartarlo</p>
+        <div class="pp" data-in="1.9"><div class="t"><span class="num">1</span>Falta de hierro</div><div class="s"><b>Estudio:</b> perfil de hierro completo<br><b>Decile al médico:</b> “Estoy cansada casi todos los días.”</div></div>
+        <div class="pp" data-in="2.3"><div class="t"><span class="num">2</span>Tiroides lenta</div><div class="s"><b>Estudio:</b> TSH y T4 libre</div></div>
+        <div class="pp" data-in="2.6"><div class="t"><span class="num">3</span>Vitamina D baja</div><div class="s"><b>Estudio:</b> vitamina D en sangre</div></div>
+      </div>
+    </div>
+    <div class="disc" data-in="2.9">Llegás a la consulta <b>sabiendo qué preguntar.</b></div>
+  </section>
+
+  <!-- 5. Agentes -->
+  <section class="scene" id="s5" data-start="20.8" data-end="25">
+    <div style="position:absolute;left:130px;top:0;bottom:0;width:820px;display:flex;flex-direction:column;justify-content:center">
+      <div class="h2" data-in="0.1">Funciona con el<br>asistente <span class="accent">que ya usás.</span></div>
+      <div class="sub" data-in="1.2" style="margin-top:40px;font-size:44px">SOMA guarda tu historia.<br>Tu asistente te ayuda a entenderla.</div>
+    </div>
+    <svg class="links" viewBox="0 0 1920 1080">
+      <line id="l0" x1="1600" y1="250" x2="1210" y2="540" stroke="#5eead4" stroke-width="4" stroke-dasharray="10 12"/>
+      <line id="l1" x1="1690" y1="540" x2="1210" y2="540" stroke="#5eead4" stroke-width="4" stroke-dasharray="10 12"/>
+      <line id="l2" x1="1600" y1="830" x2="1210" y2="540" stroke="#5eead4" stroke-width="4" stroke-dasharray="10 12"/>
+    </svg>
+    <div class="hub" data-in="0.3">SOMA</div>
+    <div class="agent" data-in="1.0" style="left:1600px;top:250px">Claude</div>
+    <div class="agent" data-in="1.2" style="left:1690px;top:540px">Gemini</div>
+    <div class="agent" data-in="1.4" style="left:1600px;top:830px">ChatGPT</div>
+  </section>
+
+  <!-- 7. Cierre -->
+  <section class="scene center" id="s7" data-start="25" data-end="30.5">
+    <div class="logo" data-in="0.1">SOMA</div>
+    <div class="sub" data-in="0.7" style="margin-top:20px;font-size:64px;color:#e6f4f1;font-weight:700;letter-spacing:-1px">Tu salud, <span class="accent">contada por vos.</span></div>
+    <div class="sub" data-in="1.6" style="position:absolute;bottom:60px;left:0;right:0;font-size:24px">SOMA no diagnostica ni receta. Te ayuda a hablarlo con tu médico.</div>
+  </section>
+
+  <div class="brand" id="brand"><span class="dot"></span>SOMA</div>
+
+</div>
+
+<script>
+const clamp = (x, a=0, b=1) => Math.max(a, Math.min(b, x));
+const ease = x => 1 - Math.pow(1 - clamp(x), 3);
+const smooth = x => { x = clamp(x); return x*x*(3-2*x); };
+const scenes = [...document.querySelectorAll('.scene')];
+const XF = 0.35; // fade in/out per scene (dip, no overlap)
+
+// waveform bars
+const wave = document.getElementById('wave');
+const NB = 30;
+for (let i = 0; i < NB; i++) { const b = document.createElement('div'); b.className = 'wbar'; wave.appendChild(b); }
+const wbars = [...wave.children];
+const waveLabel = document.createElement('span'); waveLabel.textContent = 'Mantené apretado y hablá'; wave.appendChild(waveLabel);
+
+window.render = function (T) {
+
+  const brand = document.getElementById('brand');
+  brand.style.opacity = (T > 4.5 && T < 25) ? smooth((T - 4.5) / 0.5) * smooth((25 - T) / 0.4) : 0;
+
+  for (const s of scenes) {
+    const st = +s.dataset.start, en = +s.dataset.end;
+    let o = 0;
+    if (T >= st && T <= en) o = smooth((T - st) / XF) * smooth((en - T) / XF);
+    if (st === 0) o = smooth((en - T) / XF) * smooth(T / 0.3);
+    s.style.opacity = o;
+    s.style.display = o > 0 ? 'block' : 'none';
+    if (s.classList.contains('center')) s.style.display = o > 0 ? 'flex' : 'none';
+    const lt = T - st;
+    // exit drift
+    const out = clamp((T - en + XF) / XF);
+    s.style.transform = `translateY(${-24 * smooth(out)}px)`;
+    for (const el of s.querySelectorAll('[data-in]')) {
+      const p = ease((lt - +el.dataset.in) / 0.55);
+      el.style.opacity = p;
+      const base = el.classList.contains('hub') || el.classList.contains('agent') ? `scale(${0.85 + 0.15 * p})` : `translateY(${(1 - p) * 34}px)`;
+      el.style.transform = base;
+    }
+    if (o === 0) continue;
+
+    if (s.id === 's1') {
+      // slow zoom
+      s.style.transform = `scale(${1 + lt * 0.012}) translateY(${-24 * smooth(out)}px)`;
+    }
+    if (s.id === 's2') {
+      for (const c of s.querySelectorAll('.chip')) {
+        const k = +c.dataset.float;
+        const p = ease((lt - 0.1 - k * 0.15) / 0.6);
+        const dx = Math.sin(lt * 0.9 + k * 1.7) * 14, dy = Math.cos(lt * 0.8 + k * 2.3) * 12;
+        const rot = [-6, 5, 4, -5][k] + Math.sin(lt * 0.7 + k) * 1.5;
+        c.style.opacity = 0.85 * p;
+        c.style.transform = `translate(${dx}px, ${dy + (1 - p) * 40}px) rotate(${rot}deg)`;
+      }
+    }
+    if (s.id === 's3') {
+      // event cards: appear one by one, newest on top, older pushed down
+      const times = [1.0, 2.0, 2.9, 3.7];
+      const H = [170, 150, 150, 150];
+      const evs = [...s.querySelectorAll('.ev')];
+      // order on screen: pinned cita (3) on top once present, then 2, 1, 0
+      let shown = times.map(t => ease((lt - t) / 0.5));
+      // compute y positions
+      const order = [3, 2, 1, 0];
+      let y = 0;
+      for (const idx of order) {
+        const el = evs.find(e => +e.dataset.ev === idx);
+        const p = shown[idx];
+        el.style.opacity = p;
+        el.style.top = y + 'px';
+        el.style.transform = `translateY(${(1 - p) * -30}px) scale(${0.96 + 0.04 * p})`;
+        y += (el.offsetHeight + 14) * p;
+      }
+      // recording windows
+      const rec = times.map(t => [t - 0.75, t - 0.05]);
+      let r = 0;
+      for (const [a, b] of rec) r = Math.max(r, smooth((lt - a) / 0.15) * smooth((b - lt) / 0.15));
+      wbars.forEach((b, i) => {
+        const h = 8 + r * (10 + 30 * Math.abs(Math.sin(lt * 9 + i * 0.75) * Math.cos(lt * 4.3 + i * 0.31)));
+        b.style.height = h + 'px';
+        b.style.opacity = 0.35 + 0.65 * r;
+        b.style.display = r > 0.02 ? 'block' : 'none';
+      });
+      waveLabel.style.display = r > 0.02 ? 'none' : 'inline';
+      const mic = document.getElementById('mic'), ring = document.getElementById('ring');
+      mic.style.transform = `scale(${1 + 0.18 * r})`;
+      const ph = (lt * 1.6) % 1;
+      ring.style.opacity = r * (1 - ph);
+      ring.style.transform = `scale(${1 + ph * 0.7})`;
+    }
+    if (s.id === 's5') {
+      ['l0', 'l1', 'l2'].forEach((id, i) => {
+        const l = document.getElementById(id);
+        const p = ease((lt - 1.0 - i * 0.2) / 0.6);
+        l.style.opacity = p;
+        l.setAttribute('stroke-dashoffset', String(-lt * 60));
+      });
+      const hub = s.querySelector('.hub');
+      const pulse = 1 + 0.03 * Math.sin(lt * 4);
+      hub.style.transform += ` scale(${pulse})`;
+    }
+    if (s.id === 's7') {
+      const logo = s.querySelector('.logo');
+      const ls = 30 + 30 * (1 - ease((lt - 0.1) / 1.2)); logo.style.letterSpacing = ls + 'px'; logo.style.marginRight = (-ls) + 'px';
+    }
+  }
+};
+window.render(0);
+</script>
+</body>
+</html>

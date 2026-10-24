@@ -1,0 +1,787 @@
+{
+ "paciente": {
+  "nombre": "María González",
+  "edad": 54,
+  "sexo": "F"
+ },
+ "eventos": [
+  {
+   "id": "e01",
+   "tipo": "consulta",
+   "fecha": "2026-08-28T10:30:00-03:00",
+   "creado": "2026-08-28T10:30:00-03:00",
+   "texto": "Fui a la clínica, la doctora Ruiz me dijo que el cansancio puede ser estrés y que duerma más. Me pidió análisis de sangre completo.",
+   "titulo": "Consulta con clínica médica",
+   "resumen": "La Dra. Ruiz atribuye el cansancio al estrés y pide análisis de sangre completo.",
+   "sintomas": [],
+   "comidas": [],
+   "intensidad": null,
+   "medico": "Dra. Ruiz",
+   "especialidad": "Clínica médica",
+   "indicaciones": [
+    "Dormir 8 horas",
+    "Análisis de sangre completo"
+   ],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": "Clínica del Sol",
+   "estudio_id": null
+  },
+  {
+   "id": "e02",
+   "tipo": "sentir",
+   "fecha": "2026-09-02T08:10:00-03:00",
+   "creado": "2026-09-02T08:10:00-03:00",
+   "texto": "Me levanté muy cansada, como si no hubiera dormido nada. Desayuné café con tostadas.",
+   "titulo": "Cansancio al despertar",
+   "resumen": "Se levantó muy cansada pese a haber dormido.",
+   "sintomas": [
+    "Cansancio"
+   ],
+   "comidas": [
+    "Café",
+    "Tostadas"
+   ],
+   "intensidad": 7,
+   "medico": null,
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": null,
+   "estudio_id": null
+  },
+  {
+   "id": "e03",
+   "tipo": "sentir",
+   "fecha": "2026-09-05T21:40:00-03:00",
+   "creado": "2026-09-05T21:40:00-03:00",
+   "texto": "Me duele la rodilla derecha cuando subo escaleras. Cené fideos con salsa.",
+   "titulo": "Dolor de rodilla derecha",
+   "resumen": "Dolor en la rodilla derecha al subir escaleras.",
+   "sintomas": [
+    "Dolor de rodilla"
+   ],
+   "comidas": [
+    "Fideos con salsa"
+   ],
+   "intensidad": 5,
+   "medico": null,
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": null,
+   "estudio_id": null
+  },
+  {
+   "id": "e04",
+   "tipo": "sentir",
+   "fecha": "2026-09-09T15:00:00-03:00",
+   "creado": "2026-09-09T15:00:00-03:00",
+   "texto": "Tengo mucho frío, todos tienen calor en la oficina y yo con campera. Me siento sin energía.",
+   "titulo": "Frío y falta de energía",
+   "resumen": "Siente frío cuando el resto no, y poca energía.",
+   "sintomas": [
+    "Intolerancia al frío",
+    "Cansancio"
+   ],
+   "comidas": [],
+   "intensidad": 6,
+   "medico": null,
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": null,
+   "estudio_id": null
+  },
+  {
+   "id": "e05",
+   "tipo": "estudio",
+   "fecha": "2026-09-12T11:00:00-03:00",
+   "creado": "2026-09-12T11:00:00-03:00",
+   "texto": "Hoy me dieron los resultados del análisis de sangre del laboratorio Central.",
+   "titulo": "Resultados de análisis de sangre",
+   "resumen": "Análisis de sangre completo del Laboratorio Central.",
+   "sintomas": [],
+   "comidas": [],
+   "intensidad": null,
+   "medico": null,
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": "Laboratorio Central",
+   "estudio_id": "s03"
+  },
+  {
+   "id": "e06",
+   "tipo": "sentir",
+   "fecha": "2026-09-14T13:20:00-03:00",
+   "creado": "2026-09-14T13:20:00-03:00",
+   "texto": "Almorcé milanesa con puré y me cayó pesado. Me siento hinchada.",
+   "titulo": "Pesadez después de almorzar",
+   "resumen": "Pesadez e hinchazón después del almuerzo.",
+   "sintomas": [
+    "Hinchazón",
+    "Pesadez"
+   ],
+   "comidas": [
+    "Milanesa",
+    "Puré"
+   ],
+   "intensidad": 4,
+   "medico": null,
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": null,
+   "estudio_id": null
+  },
+  {
+   "id": "e07",
+   "tipo": "sentir",
+   "fecha": "2026-09-18T07:50:00-03:00",
+   "creado": "2026-09-18T07:50:00-03:00",
+   "texto": "Se me está cayendo mucho el pelo, lo veo en la almohada y en la ducha.",
+   "titulo": "Caída de pelo",
+   "resumen": "Nota más caída de pelo de lo habitual.",
+   "sintomas": [
+    "Caída de pelo"
+   ],
+   "comidas": [],
+   "intensidad": 5,
+   "medico": null,
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": null,
+   "estudio_id": null
+  },
+  {
+   "id": "e08",
+   "tipo": "sentir",
+   "fecha": "2026-09-22T19:30:00-03:00",
+   "creado": "2026-09-22T19:30:00-03:00",
+   "texto": "Otra vez muy cansada, a la tarde me tuve que acostar. Comí una ensalada y un yogur.",
+   "titulo": "Cansancio por la tarde",
+   "resumen": "Tuvo que acostarse a la tarde por cansancio.",
+   "sintomas": [
+    "Cansancio"
+   ],
+   "comidas": [
+    "Ensalada",
+    "Yogur"
+   ],
+   "intensidad": 8,
+   "medico": null,
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": null,
+   "estudio_id": null
+  },
+  {
+   "id": "e09",
+   "tipo": "consulta",
+   "fecha": "2026-09-25T17:00:00-03:00",
+   "creado": "2026-09-25T17:00:00-03:00",
+   "texto": "Fui a la traumatóloga por la rodilla, me dijo que es desgaste leve y que haga kinesiología. Me recetó ibuprofeno si duele.",
+   "titulo": "Consulta con traumatología",
+   "resumen": "Desgaste leve de rodilla; indica kinesiología e ibuprofeno si hay dolor.",
+   "sintomas": [],
+   "comidas": [],
+   "intensidad": null,
+   "medico": "Dra. Pereyra",
+   "especialidad": "Traumatología",
+   "indicaciones": [
+    "Kinesiología 10 sesiones",
+    "Ibuprofeno 400 mg si hay dolor"
+   ],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": "Sanatorio Norte",
+   "estudio_id": null
+  },
+  {
+   "id": "e10",
+   "tipo": "medicacion",
+   "fecha": "2026-09-25T17:30:00-03:00",
+   "creado": "2026-09-25T17:30:00-03:00",
+   "texto": "Me recetaron ibuprofeno 400 cuando me duela la rodilla.",
+   "titulo": "Ibuprofeno 400 mg",
+   "resumen": "Ibuprofeno 400 mg a demanda por dolor de rodilla.",
+   "sintomas": [],
+   "comidas": [],
+   "intensidad": null,
+   "medico": "Dra. Pereyra",
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": "Ibuprofeno",
+   "dosis": "400 mg si hay dolor",
+   "cita_fecha": null,
+   "lugar": null,
+   "estudio_id": null
+  },
+  {
+   "id": "e11",
+   "tipo": "sentir",
+   "fecha": "2026-09-30T10:15:00-03:00",
+   "creado": "2026-09-30T10:15:00-03:00",
+   "texto": "Me cuesta concentrarme en el trabajo, me olvido de cosas. Desayuné solo un café.",
+   "titulo": "Dificultad para concentrarse",
+   "resumen": "Le cuesta concentrarse y se olvida de cosas.",
+   "sintomas": [
+    "Falta de concentración",
+    "Olvidos"
+   ],
+   "comidas": [
+    "Café"
+   ],
+   "intensidad": 6,
+   "medico": null,
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": null,
+   "estudio_id": null
+  },
+  {
+   "id": "e12",
+   "tipo": "sentir",
+   "fecha": "2026-10-03T22:00:00-03:00",
+   "creado": "2026-10-03T22:00:00-03:00",
+   "texto": "Me duelen las piernas a la noche y me dan calambres. Cené pollo con arroz.",
+   "titulo": "Calambres nocturnos",
+   "resumen": "Dolor de piernas y calambres a la noche.",
+   "sintomas": [
+    "Calambres",
+    "Dolor de piernas"
+   ],
+   "comidas": [
+    "Pollo",
+    "Arroz"
+   ],
+   "intensidad": 6,
+   "medico": null,
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": null,
+   "estudio_id": null
+  },
+  {
+   "id": "e13",
+   "tipo": "sentir",
+   "fecha": "2026-10-07T08:30:00-03:00",
+   "creado": "2026-10-07T08:30:00-03:00",
+   "texto": "Hoy me levanté un poco mejor, un 6 de 10. Dormí bien.",
+   "titulo": "Un poco mejor",
+   "resumen": "Se levantó mejor y durmió bien.",
+   "sintomas": [],
+   "comidas": [],
+   "intensidad": 4,
+   "medico": null,
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": null,
+   "estudio_id": null
+  },
+  {
+   "id": "e14",
+   "tipo": "estudio",
+   "fecha": "2026-10-09T12:00:00-03:00",
+   "creado": "2026-10-09T12:00:00-03:00",
+   "texto": "Me dieron el estudio de tiroides que me había hecho.",
+   "titulo": "Resultado de perfil tiroideo",
+   "resumen": "Perfil tiroideo del Laboratorio Central.",
+   "sintomas": [],
+   "comidas": [],
+   "intensidad": null,
+   "medico": null,
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": "Laboratorio Central",
+   "estudio_id": "s02"
+  },
+  {
+   "id": "e15",
+   "tipo": "sentir",
+   "fecha": "2026-10-12T14:00:00-03:00",
+   "creado": "2026-10-12T14:00:00-03:00",
+   "texto": "Comí un sándwich de jamón y queso y una gaseosa, después me agarró sueño y cansancio.",
+   "titulo": "Sueño después de comer",
+   "resumen": "Sueño y cansancio después del almuerzo.",
+   "sintomas": [
+    "Somnolencia",
+    "Cansancio"
+   ],
+   "comidas": [
+    "Sándwich de jamón y queso",
+    "Gaseosa"
+   ],
+   "intensidad": 6,
+   "medico": null,
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": null,
+   "estudio_id": null
+  },
+  {
+   "id": "e16",
+   "tipo": "sentir",
+   "fecha": "2026-10-15T09:00:00-03:00",
+   "creado": "2026-10-15T09:00:00-03:00",
+   "texto": "Tengo las uñas muy quebradizas y la piel seca.",
+   "titulo": "Uñas quebradizas y piel seca",
+   "resumen": "Uñas quebradizas y piel seca.",
+   "sintomas": [
+    "Uñas quebradizas",
+    "Piel seca"
+   ],
+   "comidas": [],
+   "intensidad": 3,
+   "medico": null,
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": null,
+   "estudio_id": null
+  },
+  {
+   "id": "e17",
+   "tipo": "sentir",
+   "fecha": "2026-10-18T20:45:00-03:00",
+   "creado": "2026-10-18T20:45:00-03:00",
+   "texto": "Subí las escaleras del subte y me faltó el aire, me agité mucho.",
+   "titulo": "Falta de aire al subir escaleras",
+   "resumen": "Se agitó mucho al subir escaleras.",
+   "sintomas": [
+    "Falta de aire",
+    "Agitación"
+   ],
+   "comidas": [],
+   "intensidad": 6,
+   "medico": null,
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": null,
+   "estudio_id": null
+  },
+  {
+   "id": "e18",
+   "tipo": "sentir",
+   "fecha": "2026-10-21T08:00:00-03:00",
+   "creado": "2026-10-21T08:00:00-03:00",
+   "texto": "Muy cansada otra vez, 3 de 10 de energía. Desayuné café con medialunas.",
+   "titulo": "Cansancio intenso",
+   "resumen": "Energía 3 de 10 al despertar.",
+   "sintomas": [
+    "Cansancio"
+   ],
+   "comidas": [
+    "Café",
+    "Medialunas"
+   ],
+   "intensidad": 7,
+   "medico": null,
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": null,
+   "estudio_id": null
+  },
+  {
+   "id": "e19",
+   "tipo": "cita",
+   "fecha": "2026-10-22T18:00:00-03:00",
+   "creado": "2026-10-22T18:00:00-03:00",
+   "texto": "Registrame que el lunes que viene tengo cita con la doctora Ruiz en la clínica a las diez.",
+   "titulo": "Cita con la Dra. Ruiz",
+   "resumen": "Control con clínica médica.",
+   "sintomas": [],
+   "comidas": [],
+   "intensidad": null,
+   "medico": "Dra. Ruiz",
+   "especialidad": "Clínica médica",
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": "2026-10-26T10:00:00-03:00",
+   "lugar": "Clínica del Sol",
+   "estudio_id": null
+  },
+  {
+   "id": "e20",
+   "tipo": "sentir",
+   "fecha": "2026-10-23T13:30:00-03:00",
+   "creado": "2026-10-23T13:30:00-03:00",
+   "texto": "Me duele la cabeza desde el mediodía. Almorcé tarta de verdura.",
+   "titulo": "Dolor de cabeza",
+   "resumen": "Dolor de cabeza desde el mediodía.",
+   "sintomas": [
+    "Dolor de cabeza"
+   ],
+   "comidas": [
+    "Tarta de verdura"
+   ],
+   "intensidad": 5,
+   "medico": null,
+   "especialidad": null,
+   "indicaciones": [],
+   "medicamento": null,
+   "dosis": null,
+   "cita_fecha": null,
+   "lugar": null,
+   "estudio_id": null
+  }
+ ],
+ "estudios": [
+  {
+   "id": "s01",
+   "fecha": "2025-03-14",
+   "tipo": "Análisis de sangre",
+   "titulo": "Hemograma y química básica",
+   "lugar": "Hospital Fernández",
+   "resumen": "Hemograma dentro de rango. Ferritina en el límite bajo.",
+   "archivo": null,
+   "valores": [
+    {
+     "nombre": "Hemoglobina",
+     "valor": 12.4,
+     "unidad": "g/dL",
+     "min": 12,
+     "max": 16,
+     "estado": "normal",
+     "optimo": null
+    },
+    {
+     "nombre": "Ferritina",
+     "valor": 38,
+     "unidad": "ng/mL",
+     "min": 11,
+     "max": 307,
+     "estado": "suboptimo",
+     "optimo": ">50"
+    },
+    {
+     "nombre": "Glucosa",
+     "valor": 92,
+     "unidad": "mg/dL",
+     "min": 70,
+     "max": 100,
+     "estado": "normal",
+     "optimo": null
+    },
+    {
+     "nombre": "Vitamina D",
+     "valor": 24,
+     "unidad": "ng/mL",
+     "min": 30,
+     "max": 100,
+     "estado": "bajo",
+     "optimo": null
+    },
+    {
+     "nombre": "TSH",
+     "valor": 3.1,
+     "unidad": "µUI/mL",
+     "min": 0.4,
+     "max": 4.5,
+     "estado": "normal",
+     "optimo": "0.5–2.5"
+    }
+   ]
+  },
+  {
+   "id": "s02",
+   "fecha": "2026-10-08",
+   "tipo": "Perfil tiroideo",
+   "titulo": "Perfil tiroideo",
+   "lugar": "Laboratorio Central",
+   "resumen": "TSH en el borde superior; T4 libre en rango bajo.",
+   "archivo": null,
+   "valores": [
+    {
+     "nombre": "TSH",
+     "valor": 4.3,
+     "unidad": "µUI/mL",
+     "min": 0.4,
+     "max": 4.5,
+     "estado": "suboptimo",
+     "optimo": "0.5–2.5"
+    },
+    {
+     "nombre": "T4 libre",
+     "valor": 0.9,
+     "unidad": "ng/dL",
+     "min": 0.8,
+     "max": 1.8,
+     "estado": "suboptimo",
+     "optimo": null
+    },
+    {
+     "nombre": "Anticuerpos anti-TPO",
+     "valor": 48,
+     "unidad": "UI/mL",
+     "min": 0,
+     "max": 35,
+     "estado": "alto",
+     "optimo": null
+    }
+   ]
+  },
+  {
+   "id": "s03",
+   "fecha": "2026-09-11",
+   "tipo": "Análisis de sangre",
+   "titulo": "Análisis de sangre completo",
+   "lugar": "Laboratorio Central",
+   "resumen": "Ferritina baja del óptimo, vitamina D baja, hemoglobina en el límite.",
+   "archivo": null,
+   "valores": [
+    {
+     "nombre": "Hemoglobina",
+     "valor": 11.9,
+     "unidad": "g/dL",
+     "min": 12,
+     "max": 16,
+     "estado": "bajo",
+     "optimo": null
+    },
+    {
+     "nombre": "Ferritina",
+     "valor": 25,
+     "unidad": "ng/mL",
+     "min": 11,
+     "max": 307,
+     "estado": "suboptimo",
+     "optimo": ">50"
+    },
+    {
+     "nombre": "Vitamina D",
+     "valor": 18,
+     "unidad": "ng/mL",
+     "min": 30,
+     "max": 100,
+     "estado": "bajo",
+     "optimo": null
+    },
+    {
+     "nombre": "Vitamina B12",
+     "valor": 310,
+     "unidad": "pg/mL",
+     "min": 200,
+     "max": 900,
+     "estado": "suboptimo",
+     "optimo": ">400"
+    },
+    {
+     "nombre": "Glucosa",
+     "valor": 95,
+     "unidad": "mg/dL",
+     "min": 70,
+     "max": 100,
+     "estado": "normal",
+     "optimo": null
+    },
+    {
+     "nombre": "Magnesio",
+     "valor": 1.8,
+     "unidad": "mg/dL",
+     "min": 1.7,
+     "max": 2.4,
+     "estado": "suboptimo",
+     "optimo": null
+    },
+    {
+     "nombre": "TSH",
+     "valor": 4.1,
+     "unidad": "µUI/mL",
+     "min": 0.4,
+     "max": 4.5,
+     "estado": "suboptimo",
+     "optimo": "0.5–2.5"
+    },
+    {
+     "nombre": "Colesterol total",
+     "valor": 212,
+     "unidad": "mg/dL",
+     "min": 0,
+     "max": 200,
+     "estado": "alto",
+     "optimo": null
+    }
+   ]
+  }
+ ],
+ "analisis": {
+  "generado": "2026-10-23T14:00:00-03:00",
+  "eventos_analizados": 20,
+  "estudios_analizados": 3,
+  "items": [
+   {
+    "posibilidad": "Falta de hierro (ferropenia)",
+    "probabilidad": 78,
+    "por_que": "Cansancio en 6 registros, caída de pelo, uñas quebradizas y falta de aire. La ferritina bajó de 38 a 25 en un año y la hemoglobina quedó apenas bajo el rango.",
+    "evidencia": [
+     "e02",
+     "e07",
+     "e16",
+     "e17",
+     "s03"
+    ],
+    "estudio": "Perfil de hierro completo (hierro sérico, transferrina, saturación) y ferritina de control",
+    "decirle": "Estoy cansada casi todos los días, se me cae el pelo y mi ferritina bajó de 38 a 25. ¿Podemos ver el hierro completo?",
+    "alerta": "alta"
+   },
+   {
+    "posibilidad": "Hipotiroidismo (tiroides lenta)",
+    "probabilidad": 71,
+    "por_que": "Frío cuando otros no lo tienen, cansancio, piel seca y problemas de concentración. TSH en 4,3 (borde) con anticuerpos anti-TPO altos.",
+    "evidencia": [
+     "e04",
+     "e11",
+     "e16",
+     "s02"
+    ],
+    "estudio": "TSH, T4 libre y anti-TPO de control; ecografía de tiroides",
+    "decirle": "Mi TSH dio 4,3 y los anticuerpos anti-TPO salieron altos. Tengo frío y cansancio. ¿Puede ser la tiroides?",
+    "alerta": "alta"
+   },
+   {
+    "posibilidad": "Falta de vitamina D",
+    "probabilidad": 66,
+    "por_que": "Dolor de rodilla y de piernas, calambres y cansancio. Vitamina D en 18 ng/mL, más baja que el año pasado (24).",
+    "evidencia": [
+     "e03",
+     "e12",
+     "s01",
+     "s03"
+    ],
+    "estudio": "Dosaje de vitamina D (25-OH) de control después de suplementar",
+    "decirle": "Mi vitamina D bajó a 18 y tengo dolor de piernas y rodilla. ¿Conviene suplementar y volver a medirla?",
+    "alerta": "media"
+   },
+   {
+    "posibilidad": "Falta de vitamina B12",
+    "probabilidad": 44,
+    "por_que": "Olvidos y dificultad para concentrarse; B12 en 310, por debajo del valor óptimo.",
+    "evidencia": [
+     "e11",
+     "s03"
+    ],
+    "estudio": "Vitamina B12, ácido fólico y homocisteína",
+    "decirle": "Me cuesta concentrarme y mi B12 dio 310. ¿Podemos medir homocisteína y ácido fólico?",
+    "alerta": "media"
+   },
+   {
+    "posibilidad": "Anemia leve",
+    "probabilidad": 40,
+    "por_que": "Hemoglobina 11,9 g/dL, apenas bajo el rango, junto con falta de aire al esfuerzo.",
+    "evidencia": [
+     "e17",
+     "s03"
+    ],
+    "estudio": "Hemograma completo con índices y recuento de reticulocitos",
+    "decirle": "Mi hemoglobina dio 11,9 y me agito al subir escaleras. ¿Hay que estudiar una anemia?",
+    "alerta": "media"
+   },
+   {
+    "posibilidad": "Falta de magnesio",
+    "probabilidad": 33,
+    "por_que": "Calambres nocturnos y magnesio en 1,8, cerca del límite inferior.",
+    "evidencia": [
+     "e12",
+     "s03"
+    ],
+    "estudio": "Magnesio sérico de control",
+    "decirle": "Tengo calambres a la noche y el magnesio dio 1,8. ¿Vale la pena controlarlo?",
+    "alerta": "baja"
+   },
+   {
+    "posibilidad": "Celiaquía",
+    "probabilidad": 27,
+    "por_que": "Hinchazón después de comer harinas, ferritina baja y vitamina D baja: la celiaquía puede afectar la absorción.",
+    "evidencia": [
+     "e06",
+     "e15",
+     "s03"
+    ],
+    "estudio": "Anticuerpos anti-transglutaminasa IgA y IgA total",
+    "decirle": "Me hincho después de comer harinas y tengo hierro y vitamina D bajos. ¿Descartamos celiaquía?",
+    "alerta": "media"
+   },
+   {
+    "posibilidad": "Trastorno del sueño o estrés",
+    "probabilidad": 25,
+    "por_que": "La médica clínica lo asoció al estrés; hay días de cansancio aunque haya dormido.",
+    "evidencia": [
+     "e01",
+     "e02",
+     "e13"
+    ],
+    "estudio": "Registro de sueño de 2 semanas en SOMA; evaluar apneas si persiste",
+    "decirle": "Me levanto cansada aunque duerma. ¿Puede haber un problema de sueño además del estrés?",
+    "alerta": "baja"
+   },
+   {
+    "posibilidad": "Perimenopausia",
+    "probabilidad": 22,
+    "por_que": "Edad de 54 años con cansancio, piel seca, dolor de cabeza y cambios de ánimo.",
+    "evidencia": [
+     "e16",
+     "e20"
+    ],
+    "estudio": "FSH y estradiol; consulta con ginecología",
+    "decirle": "Tengo 54 años y varios de estos síntomas. ¿Puede tener que ver con la perimenopausia?",
+    "alerta": "baja"
+   },
+   {
+    "posibilidad": "Depresión o ansiedad",
+    "probabilidad": 15,
+    "por_que": "Cansancio persistente y dificultad para concentrarse también aparecen en cuadros de ánimo.",
+    "evidencia": [
+     "e08",
+     "e11"
+    ],
+    "estudio": "Cuestionario de ánimo (PHQ-9) con su médica; consulta con salud mental si corresponde",
+    "decirle": "Además del cansancio, me cuesta concentrarme. ¿Podemos evaluar también cómo está mi ánimo?",
+    "alerta": "media"
+   }
+  ]
+ }
+}
