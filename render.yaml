@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: rotula
+    runtime: docker
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false

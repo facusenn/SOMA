@@ -12,6 +12,8 @@ python app.py
 ```
 
 ## Deploy (Render)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/facusenn/rotula)
+
 Build: `pip install -r requirements.txt` · Start: `gunicorn app:app --timeout 120` (o usar el Dockerfile) · Env: `ANTHROPIC_API_KEY`
 
 ## Docker
