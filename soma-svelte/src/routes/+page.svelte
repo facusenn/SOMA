@@ -8,6 +8,8 @@
 
 	let { data } = $props();
 	const d = new Dictado();
+	// Al salir de la pantalla se corta el micrófono, si no seguiría reabriéndose solo.
+	$effect(() => () => d.cancelar());
 	let texto = $state('');
 
 	// Ondas del visualizador: se animan mientras se graba.

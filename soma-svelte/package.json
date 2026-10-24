@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "BODY_SIZE_LIMIT=${BODY_SIZE_LIMIT:-25M} node build",
-    "lan": "vite build && HTTPS=1 vite preview --host 0.0.0.0 --port 4443"
+    "lan": "vite build && HTTPS=1 vite preview --host 0.0.0.0 --port 4443",
+    "test": "node tests/motorVoz.test.mjs"
   },
   "engines": {
     "node": ">=20.19"

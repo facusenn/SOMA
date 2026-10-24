@@ -27,10 +27,12 @@ el micrófono cuando se entra desde otro equipo.
 
 ## Producción (Render u otro servidor)
 
+En Render alcanza con el blueprint `render.yaml` de la raíz del repo (solo hay que cargar `OPENROUTER_API_KEY`).
+A mano:
+
 - Root directory: `soma-svelte`
 - Build command: `npm ci && npm run build`
-- Start command: `npm start` (ya incluye `BODY_SIZE_LIMIT=20M` para subir fotos de estudios y los headers del proxy
-  para que SvelteKit acepte los envíos de archivos detrás de HTTPS)
+- Start command: `npm start` (sube el límite de los envíos a 25 MB para fotos y PDFs de estudios)
 - Node: 22 (`.nvmrc`)
 
 Con HTTPS real la app se puede instalar como PWA (Chrome/Edge: botón "Instalar app"; iPhone: Compartir → Agregar a inicio).

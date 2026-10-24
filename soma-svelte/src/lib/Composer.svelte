@@ -5,6 +5,8 @@
 	import { Dictado, registrar, mmss, CANCELAR } from '$lib/dictado.svelte.js';
 
 	const d = new Dictado();
+	// Al salir de la pantalla se corta el micrófono, si no seguiría reabriéndose solo.
+	$effect(() => () => d.cancelar());
 	let texto = $state('');
 
 	function enviar(e) {
