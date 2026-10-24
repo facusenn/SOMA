@@ -84,6 +84,12 @@
 			</div>
 		</div>
 
+		<a href="/conoce" class="conoce" class:activo={activo('/conoce')}>
+			<span class="play"><Icon name="play" size={18} /></span>
+			<span class="txt"><strong>Conocé SOMA</strong><span>Mirá el video de 2 minutos</span></span>
+			<span class="nuevo">Nuevo</span>
+		</a>
+
 		<nav>
 			{#each nav as n}
 				<a href={n.href} class:activo={activo(n.href)}>
@@ -107,6 +113,7 @@
 	<header class="superior">
 		<a href="/" class="logo"><img src="/favicon.svg" alt="" width="28" height="28" /><span>SOMA</span></a>
 		<div class="derecha">
+			<a href="/conoce" class="conoce-chico" class:activo={activo('/conoce')}><Icon name="play" size={15} /> Conocé SOMA</a>
 			<Instalar compacto />
 			<span class="avatar chico">{iniciales}</span>
 		</div>
@@ -193,6 +200,23 @@
 	}
 	.lateral nav a:hover { background: var(--surface-2); }
 	.lateral nav a.activo { background: var(--brand-soft); color: var(--brand); font-weight: 600; }
+	.conoce {
+		position: relative; display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 14px; color: white;
+		background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: 0 8px 22px rgba(15, 118, 110, 0.28);
+		transition: transform 0.15s, box-shadow 0.15s;
+	}
+	.conoce:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(15, 118, 110, 0.36); }
+	.conoce.activo { outline: 2px solid var(--brand); outline-offset: 2px; }
+	.conoce .play { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; flex: none; background: rgba(255, 255, 255, 0.2); animation: latido 2s ease-out infinite; }
+	.conoce .txt { display: grid; line-height: 1.3; font-size: 12.5px; opacity: 0.95; }
+	.conoce .txt strong { font-size: 15px; }
+	.nuevo { position: absolute; top: -8px; right: 10px; padding: 2px 8px; border-radius: 99px; background: #f59e0b; color: #fff; font-size: 11px; font-weight: 700; }
+	@keyframes latido { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.55); } 100% { box-shadow: 0 0 0 12px rgba(255, 255, 255, 0); } }
+	.conoce-chico {
+		display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 99px; font-size: 13px; font-weight: 600;
+		color: white; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);
+	}
+	.conoce-chico.activo { outline: 2px solid var(--brand); outline-offset: 2px; }
 	.pie { margin-top: auto; display: grid; gap: 10px; }
 	.modo { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #b45309; }
 	.modo.ia { color: #047857; }
