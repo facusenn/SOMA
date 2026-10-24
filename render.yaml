@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: soma
+    runtime: node
+    plan: free
+    rootDir: soma-svelte
+    buildCommand: npm ci && npm run build
+    startCommand: node build
+    healthCheckPath: /
+    buildFilter:
+      paths:
+        - soma-svelte/**
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: PROTOCOL_HEADER
+        value: x-forwarded-proto
+      - key: HOST_HEADER
+        value: x-forwarded-host
+      - key: OPENROUTER_API_KEY
+        sync: false
