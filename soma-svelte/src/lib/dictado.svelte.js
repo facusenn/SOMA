@@ -88,12 +88,15 @@ export class Dictado {
 		const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 		this.#rec = new SR();
 		this.#rec.lang = 'es-AR';
-		this.#rec.continuous = true;
+		// En Android el modo continuo repite resultados; ahí se usa una frase por vez y se
+		// vuelve a escuchar mientras se mantenga apretado (ver onend).
+		this.#rec.continuous = !/android/i.test(navigator.userAgent);
 		this.#rec.interimResults = true;
+		this.#rec.maxAlternatives = 1;
 		this.#rec.onresult = (e) => {
-			let texto = '';
-			for (const r of e.results) texto += r[0].transcript;
-			this.transcripcion = (this.#acumulado + ' ' + texto).replace(/\s+/g, ' ').trim();
+			const fragmentos = [this.#acumulado];
+			for (const r of e.results) fragmentos.push(r[0].transcript);
+			this.transcripcion = unirDictado(fragmentos);
 		};
 		this.#rec.onerror = (e) => {
 			const err = ERRORES_VOZ[e.error];
@@ -177,6 +180,38 @@ export class Dictado {
 		if (dicho) registrar(dicho);
 		else avisar('Hablá cerca del micrófono mientras lo mantenés apretado.', 'aviso', { titulo: 'No te escuché', id: 'voz' });
 	}
+}
+
+const norm = (w) => w.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[.,;:!?¡¿]/g, '');
+
+/**
+ * Une fragmentos de dictado sin duplicar palabras. Chrome (sobre todo en Android) devuelve
+ * resultados que repiten lo anterior: a veces el texto acumulado ("me doblé" → "me doblé el
+ * tobillo") y a veces solapado ("me doblé" + "doblé el tobillo"). Se toma el solapamiento más
+ * largo entre el final de lo que ya hay y el comienzo del fragmento nuevo, y solo se agrega lo nuevo.
+ */
+export function unirDictado(fragmentos) {
+	let palabras = [];
+	for (const f of fragmentos) {
+		const nuevas = f.trim().split(/\s+/).filter(Boolean);
+		if (!nuevas.length) continue;
+		const a = palabras.map(norm), b = nuevas.map(norm);
+		// ¿El fragmento nuevo ya contiene todo lo anterior (resultado acumulado)?
+		if (a.length && b.length >= a.length && a.every((w, i) => w === b[i])) {
+			palabras = nuevas;
+			continue;
+		}
+		let solape = 0;
+		for (let k = Math.min(a.length, b.length); k > 0; k--) {
+			if (a.slice(-k).join(' ') === b.slice(0, k).join(' ')) {
+				solape = k;
+				break;
+			}
+		}
+		palabras = palabras.concat(nuevas.slice(solape));
+	}
+	// Repeticiones pegadas que deja el reconocedor ("doble doble doble") → una sola.
+	return palabras.filter((w, i) => i === 0 || norm(w).length < 3 || norm(w) !== norm(palabras[i - 1])).join(' ');
 }
 
 export const mmss = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
