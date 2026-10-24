@@ -19,6 +19,30 @@
 </form>
 {% endif %}
 
+{% if conexiones %}
+<section class="mb-6 bg-white rounded-xl shadow-sm p-4">
+  <h2 class="font-semibold">🔗 Lo que sentís y tus valores</h2>
+  <p class="text-xs text-slate-500 mb-3">Valores que podrían estar relacionados con tus síntomas. Son preguntas para tu médico, no causas confirmadas.</p>
+  <div class="grid sm:grid-cols-2 gap-3">
+    {% for c in conexiones %}
+    <div class="border rounded-lg p-3">
+      <p class="text-sm font-semibold capitalize">{{ c.sintoma }}</p>
+      <ul class="mt-1 space-y-1">
+        {% for mk in c.marcadores %}
+        <li class="text-xs flex justify-between gap-2" title="{{ mk.por_que }}">
+          <span>{{ mk.nombre }}</span>
+          {% if mk.estado == 'no_medido' %}<span class="text-slate-500">sin medir</span>
+          {% elif mk.estado in ('bajo', 'alto') %}<span class="text-red-700 font-semibold">{{ mk.valor.valor }} · {{ mk.estado }}</span>
+          {% else %}<span class="text-amber-700 font-semibold">{{ mk.valor.valor }} · {{ 'bajo' if mk.estado == 'bajo_optimo' else 'alto' }} del óptimo</span>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
 <div class="grid md:grid-cols-2 gap-4 mb-8">
   <form action="/entrada" method="post" class="bg-white rounded-xl shadow-sm p-4 space-y-3" onsubmit="this.querySelector('button[type=submit]').textContent='Ordenando…'">
     <h2 class="font-semibold">¿Cómo te sentís hoy?</h2>

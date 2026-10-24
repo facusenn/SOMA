@@ -6,6 +6,11 @@
   <label class="block text-sm font-semibold">¿Qué querés resolver en esta consulta?
     <textarea name="motivo" rows="3" class="w-full border rounded-lg p-2 mt-1 font-normal"
       placeholder="Ej: hace 8 meses estoy cansada y me hincho al comer, quiero saber qué tengo">Hace 8 meses estoy cansada, me hincho después de comer y siento que nadie me cree.</textarea></label>
+  <label class="flex items-center justify-between text-sm font-semibold">Idioma del resumen
+    <select name="idioma" class="border rounded-lg p-1 font-normal">
+      <option>español</option><option>inglés</option><option>portugués</option><option>italiano</option>
+    </select></label>
+  <p class="text-xs text-slate-500">Pasaporte de salud: llevá tu historia a otra ciudad, país o especialista.</p>
   <button class="w-full bg-teal-600 text-white rounded-lg py-3 font-semibold">Generar resumen para el médico</button>
 </form>
 {% endblock %}

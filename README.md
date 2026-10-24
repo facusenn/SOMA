@@ -19,3 +19,18 @@ Build: `pip install -r requirements.txt` · Start: `gunicorn app:app --timeout 1
 docker build -t rotula .
 docker run -p 8000:8000 -e ANTHROPIC_API_KEY=... rotula
 ```
+
+## Qué hace hoy (MVP)
+- **Historia universal**: estudios de cualquier institución (público, prepaga, guardia) en una sola línea de tiempo, con fecha y fuente.
+- **Bajo del óptimo**: además de "fuera de rango", marca valores "normales" que están por debajo del óptimo.
+- **Diario por voz**: síntomas, ánimo, sueño y energía en lenguaje natural, estructurados por AI, con mirada emocional opcional.
+- **Lo que sentís y tus valores**: cruza cada síntoma con los marcadores relacionados (bajo, bajo del óptimo o sin medir).
+- **¿Te hiciste ver esto?**: estudios que todavía no aparecen en la historia.
+- **Resumen para la consulta**, exportable en varios idiomas (pasaporte de salud).
+- **Modo consultorio**: transcribe la consulta y escribe la nota clínica (SOAP).
+- **Investigador de caso** (para el médico): hipótesis con evidencia a favor y en contra, citando fuentes, y la próxima mejor pregunta.
+
+Rótula no diagnostica: organiza la información para que el profesional decida con mejor contexto.
+
+## Roadmap
+Interoperabilidad HL7 FHIR (Ley 27.706), grafo clínico, consejo de agentes especialistas, red de conocimiento colectivo con consentimiento, alertas con criterios validados, cifrado y auditoría de accesos.

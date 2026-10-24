@@ -11,4 +11,10 @@
   <div id="ejemplo" class="hidden">{{ ejemplo }}</div>
   <button type="submit" class="w-full bg-slate-800 text-white rounded-lg py-3 font-semibold">Generar nota clínica</button>
 </form>
+
+<form action="/investigar" method="post" class="mt-4 bg-white rounded-xl shadow-sm p-5 space-y-3" onsubmit="this.querySelector('button').textContent='Investigando el caso…'">
+  <h2 class="font-semibold">🔬 Investigador de caso</h2>
+  <p class="text-sm text-slate-600">Para casos de larga evolución: cruza toda la historia de la paciente, propone hipótesis con evidencia a favor y en contra (citando cada fuente) y la próxima pregunta más útil.</p>
+  <button class="w-full bg-teal-700 text-white rounded-lg py-3 font-semibold">Investigar caso de Lucía</button>
+</form>
 {% endblock %}

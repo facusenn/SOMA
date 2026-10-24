@@ -116,6 +116,66 @@ def clasificar(v):
     return v
 
 
+# Síntoma -> marcadores que suele valer la pena mirar. Orientativo: se muestra como pregunta, no como causa.
+CONEXIONES = {
+    ("articular", "rodilla", "hombro", "huesos", "articulaciones"): [
+        ("Vitamina D", "su déficit se asocia a dolor óseo y articular"),
+        ("Calcio", "participa en la salud ósea y muscular"),
+        ("Albúmina", "proteína que transporta calcio y otras sustancias en la sangre"),
+        ("PCR", "marcador de inflamación"),
+    ],
+    ("fatiga", "cansancio", "cansada", "cansado"): [
+        ("Ferritina", "refleja las reservas de hierro"),
+        ("Vitamina B12", "su déficit causa cansancio aunque la hemoglobina sea normal"),
+        ("Vitamina D", "niveles bajos se asocian a cansancio"),
+        ("TSH", "evalúa la tiroides"),
+    ],
+    ("calambre", "muscular", "contractura"): [
+        ("Magnesio", "interviene en la contracción muscular"),
+        ("Potasio", "su déficit produce calambres"),
+        ("Calcio", "participa en la contracción muscular"),
+    ],
+    ("cabello", "pelo"): [
+        ("Ferritina", "reservas bajas se asocian a caída de cabello"),
+        ("Zinc", "su déficit se asocia a caída de cabello"),
+        ("TSH", "la tiroides influye en el cabello"),
+    ],
+    ("aftas",): [
+        ("Vitamina B12", "su déficit se asocia a aftas"),
+        ("Ácido fólico", "su déficit se asocia a aftas"),
+        ("Ferritina", "la falta de hierro se asocia a aftas"),
+    ],
+    ("insomnio", "dormir", "sueño"): [
+        ("Magnesio", "se asocia a la calidad del sueño"),
+        ("Ferritina", "el hierro bajo se asocia a piernas inquietas"),
+    ],
+}
+
+
+def conexiones(h):
+    """Cruza los síntomas del diario con el último valor de cada marcador relacionado."""
+    ultimo = {}
+    for s in h["estudios"]:  # vienen ordenados por fecha: queda el más reciente
+        for v in s["valores"]:
+            ultimo[v["nombre"].lower()] = {**v, "fecha": s["fecha"], "institucion": s["institucion"]}
+    sintomas = {x["nombre"].lower() for e in h["diario"] for x in e["estructura"].get("sintomas", [])}
+    texto = " ".join(e["texto"].lower() for e in h["diario"]) + " " + " ".join(sintomas)
+    out = []
+    for claves, marcadores in CONEXIONES.items():
+        clave = next((k for k in claves if k in texto), None)
+        if not clave:
+            continue
+        filas = []
+        for nombre, por_que in marcadores:
+            v = ultimo.get(nombre.lower())
+            estado = v["estado"] if v else "no_medido"
+            if estado != "normal":
+                filas.append({"nombre": nombre, "por_que": por_que, "estado": estado, "valor": v})
+        if filas:
+            out.append({"sintoma": clave, "marcadores": filas})
+    return out
+
+
 # ---------- base de datos ----------
 
 def db():
@@ -195,6 +255,7 @@ Formato markdown con estas secciones exactas:
 ## Síntomas recurrentes (tabla: síntoma | desde cuándo | intensidad promedio | factores asociados)
 ## Bienestar emocional y general (ánimo, sueño, energía, estresores: tendencia)
 ## Estudios: valores a revisar (tabla: valor | resultado | referencia | óptimo | estado | institución y fecha). Remarcá tendencias entre estudios.
+## Síntomas y valores relacionados (usá "conexiones_sintoma_valor": qué marcador podría vincularse con cada síntoma y si está bajo, bajo del óptimo o sin medir; siempre como posibilidad a evaluar)
 ## Estudios que todavía no aparecen en la historia (qué podría valer la pena evaluar y por qué, como pregunta)
 ## Patrones en casos similares de la comunidad (orientativo y anónimo)
 ## Preguntas que el paciente quiere hacer (3 a 5, concretas)
@@ -206,9 +267,21 @@ No diagnosticás. Mirá sus síntomas y los estudios que YA se hizo (de todas la
 análisis o evaluaciones NO aparecen todavía y suelen considerarse ante ese cuadro (vitaminas, minerales,
 enzimas, anticuerpos, hormonas, derivaciones). Markdown, en segunda persona, español rioplatense:
 ## Lo que ya te hiciste (una línea)
+## Lo que sentís y tus valores (para cada síntoma, qué marcadores podrían estar relacionados y cómo te dieron, usando "conexiones_sintoma_valor"; como posibilidad, nunca como causa segura)
 ## ¿Te hiciste ver esto? (lista: **estudio**: por qué podría aportar, en una oración)
 ## Valores "normales" que conviene mirar de nuevo (los bajo_optimo / alto_optimo)
 Cerrá con: "_Llevá esta lista como preguntas a tu médico: es quien decide qué estudios corresponden._"
+"""
+
+INVESTIGAR = """Sos un asistente de investigación clínica para un MÉDICO que revisa un caso de larga evolución sin diagnóstico.
+No das diagnósticos: ordenás hipótesis para que el profesional las evalúe. Español rioplatense profesional.
+Cada dato que cites debe salir del historial e indicar su fuente entre corchetes [fecha · institución o diario].
+No inventes datos ni porcentajes. Markdown con estas secciones:
+## Conexión temporal destacada (una relación entre eventos separados en el tiempo, con sus fuentes)
+## Hipótesis para revisión médica (2 a 4; para cada una: **nombre**, A favor (con fuentes), En contra o no explica, Dato que falta)
+## Próxima mejor pregunta (las 2 preguntas al paciente que más ayudarían a distinguir entre hipótesis, y por qué)
+## Próximo estudio más informativo (uno o dos, y qué hipótesis ayudaría a confirmar o descartar)
+Cerrá con: "_Hipótesis generadas con AI para revisión profesional. No constituyen diagnóstico._"
 """
 
 NOTA = """Sos un asistente de documentación clínica. Recibís la transcripción de una consulta médica (médico y paciente
@@ -253,9 +326,10 @@ def index():
     ] + [{"tipo": "estudio", "fecha": s["fecha"], "data": s} for s in h["estudios"]]
     items.sort(key=lambda i: i["fecha"], reverse=True)
     instituciones = sorted({s["institucion"] for s in h["estudios"] if s.get("institucion")})
+    links = conexiones(h)
     alertas = sum(1 for s in h["estudios"] for v in s["valores"] if v["estado"] in ("bajo_optimo", "alto_optimo"))
     return render_template("index.html", items=items, hoy=date.today().isoformat(), ai=bool(claude()),
-                           instituciones=instituciones, alertas=alertas)
+                           instituciones=instituciones, alertas=alertas, conexiones=links)
 
 
 @app.post("/entrada")
@@ -294,8 +368,13 @@ def consulta():
         return render_template("consulta_form.html")
     from seed import COMUNIDAD, CONSULTA_FALLBACK
 
-    payload = {"motivo": request.form.get("motivo", ""), **historia(), "casos_comunidad_anonimos": COMUNIDAD}
-    texto = ask_text(CONSULTA, json.dumps(payload, ensure_ascii=False)) or CONSULTA_FALLBACK
+    h = historia()
+    payload = {"motivo": request.form.get("motivo", ""), **h, "conexiones_sintoma_valor": conexiones(h),
+               "casos_comunidad_anonimos": COMUNIDAD}
+    idioma = request.form.get("idioma", "español")
+    sistema = CONSULTA if idioma == "español" else CONSULTA + (
+        f"\nEscribí TODO el resumen (títulos incluidos) en {idioma}, conservando fechas, unidades y nombres de estudios.")
+    texto = ask_text(sistema, json.dumps(payload, ensure_ascii=False)) or CONSULTA_FALLBACK
     return render_template("consulta.html", html=md(texto), titulo="Resumen para la consulta",
                            generado=datetime.now().strftime("%d/%m/%Y %H:%M"))
 
@@ -304,7 +383,9 @@ def consulta():
 def faltantes():
     from seed import FALTANTES_FALLBACK
 
-    texto = ask_text(FALTANTES, json.dumps(historia(), ensure_ascii=False), 1800) or FALTANTES_FALLBACK
+    h = historia()
+    payload = {**h, "conexiones_sintoma_valor": conexiones(h)}
+    texto = ask_text(FALTANTES, json.dumps(payload, ensure_ascii=False), 1800) or FALTANTES_FALLBACK
     return render_template("consulta.html", html=md(texto), titulo="¿Te hiciste ver esto?",
                            generado=datetime.now().strftime("%d/%m/%Y %H:%M"))
 
@@ -321,6 +402,17 @@ def consultorio():
     payload = {"transcripcion": transcripcion, "historial_previo": historia()}
     texto = ask_text(NOTA, json.dumps(payload, ensure_ascii=False), 1800) or NOTA_FALLBACK
     return render_template("consulta.html", html=md(texto), titulo="Nota clínica (borrador para revisar)",
+                           generado=datetime.now().strftime("%d/%m/%Y %H:%M"))
+
+
+@app.post("/investigar")
+def investigar():
+    from seed import INVESTIGAR_FALLBACK
+
+    h = historia()
+    payload = {**h, "conexiones_sintoma_valor": conexiones(h)}
+    texto = ask_text(INVESTIGAR, json.dumps(payload, ensure_ascii=False), 2500) or INVESTIGAR_FALLBACK
+    return render_template("consulta.html", html=md(texto), titulo="Investigador de caso (para el médico)",
                            generado=datetime.now().strftime("%d/%m/%Y %H:%M"))
 
 

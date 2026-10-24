@@ -22,6 +22,9 @@ ENTRADAS = [
      {"sintomas": [{"nombre": "pérdida de peso", "zona": None, "intensidad": None, "cuando": "últimos meses"},
                    {"nombre": "mareo ortostático", "zona": None, "intensidad": 5, "cuando": "al pararse"}],
       "contexto": ["sin dieta"], "resumen": "Pérdida de 4 kg involuntaria y mareos al incorporarse."}),
+    ("2026-09-10", "Me duelen las rodillas y los hombros, sobre todo a la mañana. Pensé que era del gimnasio pero ya no voy.", "Hace semanas", 2, 2, 2,
+     {"sintomas": [{"nombre": "dolor articular", "zona": "rodillas y hombros", "intensidad": 6, "cuando": "a la mañana"}],
+      "contexto": ["sin actividad física reciente"], "resumen": "Dolor articular matutino en rodillas y hombros."}),
     ("2026-09-28", "Fui a la guardia por el mareo, me dijeron que tome más agua. Sigo hinchada después de comer.", "Meses", 2, 2, 1,
      {"sintomas": [{"nombre": "mareo", "zona": None, "intensidad": 6, "cuando": None},
                    {"nombre": "distensión abdominal", "zona": "abdomen", "intensidad": 7, "cuando": "post comidas"}],
@@ -139,6 +142,14 @@ CONSULTA_FALLBACK = """## Motivo de consulta (en palabras del paciente)
 
 **Tendencia:** en febrero la ferritina y la hemoglobina ya estaban en el límite inferior aunque se informaron como normales.
 
+## Síntomas y valores relacionados
+| Síntoma | Marcador a evaluar | Estado |
+|---|---|---|
+| Dolor articular (rodillas, hombros) | Vitamina D, calcio, albúmina, PCR | **Sin medir** |
+| Fatiga | Ferritina 8 · B12 260 · Vitamina D | **Bajo** · bajo del óptimo · sin medir |
+| Caída de cabello | Ferritina · zinc | **Bajo** · sin medir |
+| Aftas | B12 · ácido fólico | Bajo del óptimo · sin medir |
+
 ## Estudios que todavía no aparecen en la historia
 - **Anticuerpos anti-transglutaminasa IgA + IgA total**: ¿corresponde descartar celiaquía ante anemia ferropénica sin causa clara?
 - **Vitamina D, ácido fólico, zinc**: déficits frecuentes cuando hay malabsorción.
@@ -159,6 +170,11 @@ _Resumen generado con AI a partir de registros del paciente. No reemplaza el cri
 
 FALTANTES_FALLBACK = """## Lo que ya te hiciste
 Hemograma (3 veces), ferritina, TSH, glucemia, B12, GOT y sodio, en un hospital público, una prepaga y una guardia.
+
+## Lo que sentís y tus valores
+- **Dolor en rodillas y hombros**: la **vitamina D** y el **calcio** no aparecen en ninguno de tus estudios. Su déficit se asocia a dolor óseo y articular, y la **albúmina** (la proteína que transporta el calcio) ayuda a interpretarlo.
+- **Cansancio**: tu **ferritina** está baja (8) y la **B12** dentro del rango pero bajo del óptimo (260).
+- **Caída de cabello y aftas**: ferritina baja; **zinc** y **ácido fólico** sin medir.
 
 ## ¿Te hiciste ver esto?
 - **Anticuerpos anti-transglutaminasa IgA + IgA total**: la anemia por falta de hierro con hinchazón después de las harinas a veces tiene que ver con la absorción.
@@ -205,4 +221,34 @@ Anemia ferropénica con síntomas digestivos. Se plantea descartar enfermedad ce
 
 ## Para el paciente
 Hablamos de tu cansancio y de la anemia. Te vas a hacer análisis para ver si el problema es de absorción (celiaquía), sin dejar el gluten todavía. Mientras, tomás hierro y volvés en 3 semanas.
+"""
+
+INVESTIGAR_FALLBACK = """## Conexión temporal destacada
+La **ferritina** pasó de **22 ng/mL** [2026-02-20 · Hospital Provincial] (informada como normal) a **8 ng/mL** [2026-07-10 · Sanatorio Parque], y la **hemoglobina** de 12.3 a 10.5 g/dL [2026-09-28 · Guardia Hospital Centenario]. En el mismo período aparecen distensión con harinas [diario 2026-03-20], aftas y caída de cabello [diario 2026-06-15] y pérdida de 4 kg [diario 2026-08-03]. Los tres estudios se hicieron en instituciones distintas y ninguna tuvo la serie completa.
+
+## Hipótesis para revisión médica
+**1. Malabsorción (p. ej. enfermedad celíaca)**
+- A favor: anemia ferropénica progresiva [feb → jul → sep], distensión posprandial con harinas [2026-03-20], aftas [2026-06-15], pérdida de peso [2026-08-03], GOT 41 [2026-07-10], dolor articular [2026-09-10].
+- En contra o no explica: sin datos en contra en el historial.
+- Dato que falta: anti-transglutaminasa IgA + IgA total; antecedentes familiares.
+
+**2. Enfermedad inflamatoria intestinal**
+- A favor: diarrea 2-3 veces por semana [2026-06-15], pérdida de peso [2026-08-03], anemia.
+- En contra o no explica: relación específica con harinas; no se registra sangrado.
+- Dato que falta: calprotectina fecal; presencia de sangre en materia fecal.
+
+**3. Pérdidas de hierro (ginecológicas u otras)**
+- A favor: ferropenia en mujer de 29 años.
+- En contra o no explica: no explica la distensión, la diarrea ni las aftas.
+- Dato que falta: características de las menstruaciones.
+
+## Próxima mejor pregunta
+1. **¿Tus menstruaciones son abundantes o cambiaron este año?** Separa una pérdida de hierro de un problema de absorción.
+2. **¿Alguien en tu familia tiene celiaquía, tiroides o diabetes tipo 1?** Modifica la probabilidad previa de la hipótesis 1.
+
+## Próximo estudio más informativo
+- **Anti-transglutaminasa IgA + IgA total**: con la paciente consumiendo gluten, ayuda a confirmar o descartar la hipótesis 1.
+- **Calprotectina fecal**: orienta entre las hipótesis 1 y 2.
+
+_Hipótesis generadas con AI para revisión profesional. No constituyen diagnóstico._
 """
