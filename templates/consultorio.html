@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block body %}
+<form action="/consultorio" method="post" class="bg-white rounded-xl shadow-sm p-5 space-y-4" onsubmit="this.querySelector('button[type=submit]').textContent='Escribiendo la nota…'">
+  <h1 class="text-xl font-bold">🩻 Modo consultorio</h1>
+  <p class="text-sm text-slate-600">Con el consentimiento de la paciente, Rótula escucha la consulta y escribe la nota clínica. El médico mira a la paciente, no a la pantalla.</p>
+  <div class="flex gap-2">
+    <button type="button" onclick="dictar(this, 'transcripcion', true)" class="bg-teal-600 text-white text-sm font-semibold px-4 py-2 rounded-lg">🎤 Escuchar consulta</button>
+    <button type="button" onclick="document.getElementById('transcripcion').value = document.getElementById('ejemplo').textContent" class="text-sm px-4 py-2 rounded-lg border">Cargar ejemplo</button>
+  </div>
+  <textarea id="transcripcion" name="transcripcion" rows="8" required class="w-full border rounded-lg p-2 text-sm" placeholder="La transcripción aparece acá mientras hablan…"></textarea>
+  <div id="ejemplo" class="hidden">{{ ejemplo }}</div>
+  <button type="submit" class="w-full bg-slate-800 text-white rounded-lg py-3 font-semibold">Generar nota clínica</button>
+</form>
+{% endblock %}

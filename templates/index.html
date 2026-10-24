@@ -2,37 +2,68 @@
 {% block body %}
 <section class="mb-6">
   <h1 class="text-2xl font-bold">Hola, Lucía</h1>
-  <p class="text-slate-600">Contá cómo te sentís, subí tus estudios. Nosotros lo ordenamos para tu médico.</p>
+  <p class="text-slate-600">Tu historia clínica es tuya, no de la clínica donde te atendiste. Contá cómo te sentís y subí estudios de cualquier lugar.</p>
+  <div class="flex flex-wrap gap-1 mt-2">
+    {% for i in instituciones %}<span class="text-xs bg-white border rounded-full px-2 py-0.5">🏥 {{ i }}</span>{% endfor %}
+  </div>
   {% if not ai %}<p class="mt-2 text-xs text-amber-700 bg-amber-50 rounded px-2 py-1 inline-block">Modo demo sin AI (falta ANTHROPIC_API_KEY)</p>{% endif %}
 </section>
 
+{% if alertas %}
+<form action="/faltantes" method="post" class="mb-6 bg-amber-50 border border-amber-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-3" onsubmit="this.querySelector('button').textContent='Buscando…'">
+  <div class="flex-1 text-sm">
+    <p class="font-semibold text-amber-900">Tus análisis "dan normal" pero seguís sintiéndote mal</p>
+    <p class="text-amber-800">Encontramos {{ alertas }} valores dentro del rango pero <b>bajo del óptimo</b>, y estudios que todavía no te hiciste.</p>
+  </div>
+  <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-4 py-2 rounded-lg whitespace-nowrap">¿Te hiciste ver esto?</button>
+</form>
+{% endif %}
+
 <div class="grid md:grid-cols-2 gap-4 mb-8">
-  <form action="/entrada" method="post" class="bg-white rounded-xl shadow-sm p-4 space-y-3" onsubmit="this.querySelector('button').textContent='Ordenando…'">
+  <form action="/entrada" method="post" class="bg-white rounded-xl shadow-sm p-4 space-y-3" onsubmit="this.querySelector('button[type=submit]').textContent='Ordenando…'">
     <h2 class="font-semibold">¿Cómo te sentís hoy?</h2>
-    <textarea name="texto" rows="3" required class="w-full border rounded-lg p-2 text-sm"
-      placeholder="Ej: me duele la panza después de almorzar, dormí mal y estoy muy cansada"></textarea>
+    <div class="relative">
+      <textarea id="texto" name="texto" rows="3" required class="w-full border rounded-lg p-2 pr-12 text-sm"
+        placeholder="Ej: me duele la rodilla desde ayer, dormí mal y estoy muy cansada"></textarea>
+      <button type="button" onclick="dictar(this, 'texto')" title="Dictar por voz"
+        class="absolute right-2 top-2 w-9 h-9 rounded-full bg-teal-600 text-white">🎤</button>
+    </div>
+    <label class="flex items-center justify-between text-sm">¿Desde cuándo?
+      <select name="duracion" class="border rounded-lg p-1 text-sm">
+        <option>Empezó hoy</option><option>Hace unos días</option><option>Hace semanas</option><option>Hace meses</option><option>Viene y va</option>
+      </select></label>
     {% for campo, label in [("animo","Ánimo"),("sueno","Sueño"),("energia","Energía")] %}
     <label class="flex items-center justify-between text-sm">{{ label }}
       <input type="range" name="{{ campo }}" min="1" max="5" value="3" class="w-1/2 accent-teal-600"></label>
     {% endfor %}
+    <label class="flex items-start gap-2 text-sm bg-violet-50 rounded-lg p-2">
+      <input type="checkbox" name="emocional" class="mt-1 accent-violet-600">
+      <span>Quiero verlo también desde lo emocional <span class="text-slate-500">(estrés, preocupaciones, cómo te está afectando)</span></span></label>
     <input type="date" name="fecha" value="{{ hoy }}" class="border rounded-lg p-1 text-sm">
-    <button class="w-full bg-teal-600 text-white rounded-lg py-2 font-semibold">Guardar</button>
+    <button type="submit" class="w-full bg-teal-600 text-white rounded-lg py-2 font-semibold">Guardar</button>
   </form>
 
   <form action="/estudio" method="post" enctype="multipart/form-data" class="bg-white rounded-xl shadow-sm p-4 space-y-3" onsubmit="this.querySelector('button').textContent='Leyendo estudio…'">
     <h2 class="font-semibold">Subí un estudio</h2>
-    <p class="text-sm text-slate-600">Foto o PDF de un análisis o informe. La AI extrae los valores y marca los que están fuera de rango.</p>
+    <p class="text-sm text-slate-600">Foto o PDF, de un hospital público, tu prepaga o un laboratorio particular. La AI extrae los valores y marca los que están fuera de rango <b>y los que están bajo del óptimo</b>.</p>
+    <input name="institucion" placeholder="¿Dónde te lo hiciste? (opcional)" class="w-full border rounded-lg p-2 text-sm">
     <input type="file" name="archivo" accept="image/*,application/pdf" required class="text-sm">
     <button class="w-full bg-slate-800 text-white rounded-lg py-2 font-semibold">Subir y leer</button>
   </form>
 </div>
 
-<h2 class="font-semibold text-lg mb-3">Tu historia</h2>
+<div class="flex items-center justify-between mb-3">
+  <h2 class="font-semibold text-lg">Tu historia</h2>
+  <div class="flex gap-2 text-xs">
+    <span class="bg-red-100 text-red-800 rounded-full px-2 py-0.5">Fuera de rango</span>
+    <span class="bg-amber-100 text-amber-800 rounded-full px-2 py-0.5">Bajo/alto del óptimo</span>
+  </div>
+</div>
 <ol class="relative border-l-2 border-teal-200 ml-2 space-y-5">
   {% for it in items %}
   <li class="ml-5">
     <span class="absolute -left-[9px] w-4 h-4 rounded-full {{ 'bg-slate-800' if it.tipo == 'estudio' else 'bg-teal-500' }}"></span>
-    <div class="text-xs text-slate-500">{{ it.fecha }}</div>
+    <div class="text-xs text-slate-500">{{ it.fecha }}{% if it.tipo == 'entrada' and it.row.duracion %} · {{ it.row.duracion }}{% endif %}</div>
     {% if it.tipo == 'entrada' %}
     <div class="bg-white rounded-xl shadow-sm p-3 mt-1">
       <p class="text-sm">“{{ it.row.texto }}”</p>
@@ -41,14 +72,23 @@
         {% for c in it.data.contexto %}<span class="text-xs bg-slate-100 text-slate-700 rounded-full px-2 py-0.5">{{ c }}</span>{% endfor %}
       </div>
       <div class="text-xs text-slate-500 mt-2">Ánimo {{ it.row.animo }}/5 · Sueño {{ it.row.sueno }}/5 · Energía {{ it.row.energia }}/5</div>
+      {% if it.data.mirada_emocional %}
+      <p class="text-sm bg-violet-50 text-violet-900 rounded-lg p-2 mt-2">💜 {{ it.data.mirada_emocional }}</p>
+      {% endif %}
     </div>
     {% else %}
     <div class="bg-white rounded-xl shadow-sm p-3 mt-1 border-l-4 border-slate-800">
-      <p class="text-sm font-semibold">📄 {{ it.data.tipo }} <span class="font-normal text-slate-500">({{ it.row.nombre_archivo }})</span></p>
+      <p class="text-sm font-semibold">📄 {{ it.data.tipo }}</p>
+      <p class="text-xs text-slate-500">🏥 {{ it.data.institucion }}</p>
       <p class="text-sm text-slate-600 mt-1">{{ it.data.resumen }}</p>
       <div class="flex flex-wrap gap-1 mt-2">
         {% for v in it.data.valores %}
-        <span class="text-xs rounded-full px-2 py-0.5 {{ 'bg-red-100 text-red-800 font-semibold' if v.fuera_de_rango else 'bg-slate-100 text-slate-600' }}">{{ v.nombre }} {{ v.valor }}{% if v.unidad %} {{ v.unidad }}{% endif %}</span>
+        {% set cls = {'bajo': 'bg-red-100 text-red-800 font-semibold', 'alto': 'bg-red-100 text-red-800 font-semibold',
+                      'bajo_optimo': 'bg-amber-100 text-amber-800 font-semibold', 'alto_optimo': 'bg-amber-100 text-amber-800 font-semibold'}.get(v.estado, 'bg-slate-100 text-slate-600') %}
+        <span class="text-xs rounded-full px-2 py-0.5 {{ cls }}"
+          title="Referencia {{ v.referencia or '-' }}{% if v.optimo %} · Óptimo {{ v.optimo }}{% endif %}">
+          {% if v.estado in ('bajo', 'bajo_optimo') %}↓{% elif v.estado in ('alto', 'alto_optimo') %}↑{% endif %}
+          {{ v.nombre }} {{ v.valor }}{% if v.unidad %} {{ v.unidad }}{% endif %}{% if v.estado == 'bajo_optimo' %} · bajo del óptimo{% elif v.estado == 'alto_optimo' %} · alto del óptimo{% endif %}</span>
         {% endfor %}
       </div>
     </div>
