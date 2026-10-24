@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rótula · tu historial clínico holístico</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <style>
+    .prose h2 { font-weight: 700; font-size: 1.05rem; margin: 1.2rem 0 .4rem; color: #0f766e; }
+    .prose ul, .prose ol { padding-left: 1.2rem; margin: .3rem 0; }
+    .prose ul { list-style: disc; } .prose ol { list-style: decimal; }
+    .prose table { width: 100%; border-collapse: collapse; font-size: .85rem; margin: .4rem 0; }
+    .prose th, .prose td { border: 1px solid #e2e8f0; padding: .3rem .5rem; text-align: left; }
+    .prose th { background: #f0fdfa; }
+    .prose em { color: #64748b; }
+    @media print { .no-print { display: none !important; } body { background: white; } }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+  <header class="bg-white border-b no-print">
+    <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="/" class="font-bold text-teal-700 text-lg">🩺 Rótula</a>
+      <a href="/consulta" class="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-4 py-2 rounded-lg">Preparar mi consulta</a>
+    </div>
+  </header>
+  <main class="max-w-3xl mx-auto px-4 py-6">{% block body %}{% endblock %}</main>
+  <footer class="max-w-3xl mx-auto px-4 pb-8 text-xs text-slate-500 no-print">
+    Rótula no diagnostica ni reemplaza a tu médico. Ordena tu información para que la consulta rinda más.
+    Tus datos son tuyos: la información de la comunidad se usa solo de forma anónima y con tu consentimiento.
+  </footer>
+</body>
+</html>

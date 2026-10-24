@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="flex gap-2 mb-4 no-print">
+  <button onclick="window.print()" class="bg-slate-800 text-white text-sm px-4 py-2 rounded-lg">Imprimir / PDF</button>
+  <a href="/" class="text-sm px-4 py-2 rounded-lg border">Volver</a>
+</div>
+<article class="bg-white rounded-xl shadow-sm p-6">
+  <div class="flex justify-between items-start border-b pb-3 mb-2">
+    <div>
+      <h1 class="text-xl font-bold">Resumen para la consulta</h1>
+      <p class="text-sm text-slate-600">Paciente: Lucía G., 29 años</p>
+    </div>
+    <p class="text-xs text-slate-500">Generado {{ generado }}</p>
+  </div>
+  <div class="prose">{{ html|safe }}</div>
+</article>
+{% endblock %}

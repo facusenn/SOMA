@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block body %}
+<section class="mb-6">
+  <h1 class="text-2xl font-bold">Hola, Lucía</h1>
+  <p class="text-slate-600">Contá cómo te sentís, subí tus estudios. Nosotros lo ordenamos para tu médico.</p>
+  {% if not ai %}<p class="mt-2 text-xs text-amber-700 bg-amber-50 rounded px-2 py-1 inline-block">Modo demo sin AI (falta ANTHROPIC_API_KEY)</p>{% endif %}
+</section>
+
+<div class="grid md:grid-cols-2 gap-4 mb-8">
+  <form action="/entrada" method="post" class="bg-white rounded-xl shadow-sm p-4 space-y-3" onsubmit="this.querySelector('button').textContent='Ordenando…'">
+    <h2 class="font-semibold">¿Cómo te sentís hoy?</h2>
+    <textarea name="texto" rows="3" required class="w-full border rounded-lg p-2 text-sm"
+      placeholder="Ej: me duele la panza después de almorzar, dormí mal y estoy muy cansada"></textarea>
+    {% for campo, label in [("animo","Ánimo"),("sueno","Sueño"),("energia","Energía")] %}
+    <label class="flex items-center justify-between text-sm">{{ label }}
+      <input type="range" name="{{ campo }}" min="1" max="5" value="3" class="w-1/2 accent-teal-600"></label>
+    {% endfor %}
+    <input type="date" name="fecha" value="{{ hoy }}" class="border rounded-lg p-1 text-sm">
+    <button class="w-full bg-teal-600 text-white rounded-lg py-2 font-semibold">Guardar</button>
+  </form>
+
+  <form action="/estudio" method="post" enctype="multipart/form-data" class="bg-white rounded-xl shadow-sm p-4 space-y-3" onsubmit="this.querySelector('button').textContent='Leyendo estudio…'">
+    <h2 class="font-semibold">Subí un estudio</h2>
+    <p class="text-sm text-slate-600">Foto o PDF de un análisis o informe. La AI extrae los valores y marca los que están fuera de rango.</p>
+    <input type="file" name="archivo" accept="image/*,application/pdf" required class="text-sm">
+    <button class="w-full bg-slate-800 text-white rounded-lg py-2 font-semibold">Subir y leer</button>
+  </form>
+</div>
+
+<h2 class="font-semibold text-lg mb-3">Tu historia</h2>
+<ol class="relative border-l-2 border-teal-200 ml-2 space-y-5">
+  {% for it in items %}
+  <li class="ml-5">
+    <span class="absolute -left-[9px] w-4 h-4 rounded-full {{ 'bg-slate-800' if it.tipo == 'estudio' else 'bg-teal-500' }}"></span>
+    <div class="text-xs text-slate-500">{{ it.fecha }}</div>
+    {% if it.tipo == 'entrada' %}
+    <div class="bg-white rounded-xl shadow-sm p-3 mt-1">
+      <p class="text-sm">“{{ it.row.texto }}”</p>
+      <div class="flex flex-wrap gap-1 mt-2">
+        {% for s in it.data.sintomas %}<span class="text-xs bg-teal-50 text-teal-800 rounded-full px-2 py-0.5">{{ s.nombre }}{% if s.intensidad %} · {{ s.intensidad }}/10{% endif %}</span>{% endfor %}
+        {% for c in it.data.contexto %}<span class="text-xs bg-slate-100 text-slate-700 rounded-full px-2 py-0.5">{{ c }}</span>{% endfor %}
+      </div>
+      <div class="text-xs text-slate-500 mt-2">Ánimo {{ it.row.animo }}/5 · Sueño {{ it.row.sueno }}/5 · Energía {{ it.row.energia }}/5</div>
+    </div>
+    {% else %}
+    <div class="bg-white rounded-xl shadow-sm p-3 mt-1 border-l-4 border-slate-800">
+      <p class="text-sm font-semibold">📄 {{ it.data.tipo }} <span class="font-normal text-slate-500">({{ it.row.nombre_archivo }})</span></p>
+      <p class="text-sm text-slate-600 mt-1">{{ it.data.resumen }}</p>
+      <div class="flex flex-wrap gap-1 mt-2">
+        {% for v in it.data.valores %}
+        <span class="text-xs rounded-full px-2 py-0.5 {{ 'bg-red-100 text-red-800 font-semibold' if v.fuera_de_rango else 'bg-slate-100 text-slate-600' }}">{{ v.nombre }} {{ v.valor }}{% if v.unidad %} {{ v.unidad }}{% endif %}</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ol>
+
+<form action="/reset" method="post" class="mt-10 no-print"><button class="text-xs text-slate-400 underline">Reiniciar datos demo</button></form>
+{% endblock %}

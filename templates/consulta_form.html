@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block body %}
+<form action="/consulta" method="post" class="bg-white rounded-xl shadow-sm p-5 space-y-4" onsubmit="this.querySelector('button').textContent='Preparando tu resumen…'; this.querySelector('button').disabled=true">
+  <h1 class="text-xl font-bold">Preparar mi consulta</h1>
+  <p class="text-sm text-slate-600">Juntamos tu diario, tus estudios y lo que aprendieron otras personas con síntomas parecidos, y armamos un resumen de una página para tu médico.</p>
+  <label class="block text-sm font-semibold">¿Qué querés resolver en esta consulta?
+    <textarea name="motivo" rows="3" class="w-full border rounded-lg p-2 mt-1 font-normal"
+      placeholder="Ej: hace 8 meses estoy cansada y me hincho al comer, quiero saber qué tengo">Hace 8 meses estoy cansada, me hincho después de comer y siento que nadie me cree.</textarea></label>
+  <button class="w-full bg-teal-600 text-white rounded-lg py-3 font-semibold">Generar resumen para el médico</button>
+</form>
+{% endblock %}
