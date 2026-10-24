@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: rotula
+    name: soma
     runtime: docker
     plan: free
     healthCheckPath: /

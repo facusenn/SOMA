@@ -1,4 +1,4 @@
-# Rótula: tu historial clínico holístico
+# SOMA: tu historial clínico holístico
 
 Subís tus estudios y contás cómo te sentís (síntomas, ánimo, sueño, energía). La AI lo ordena en una línea de tiempo y, antes de ir al médico, arma un **resumen de una página para el profesional**, con valores fuera de rango, patrones de casos similares (anónimos) y preguntas para hacer.
 
@@ -18,8 +18,8 @@ Build: `pip install -r requirements.txt` · Start: `gunicorn app:app --timeout 1
 
 ## Docker
 ```
-docker build -t rotula .
-docker run -p 8000:8000 -e ANTHROPIC_API_KEY=... rotula
+docker build -t soma .
+docker run -p 8000:8000 -e ANTHROPIC_API_KEY=... soma
 ```
 
 ## Qué hace hoy (MVP)
@@ -32,7 +32,7 @@ docker run -p 8000:8000 -e ANTHROPIC_API_KEY=... rotula
 - **Modo consultorio**: transcribe la consulta y escribe la nota clínica (SOAP).
 - **Investigador de caso** (para el médico): hipótesis con evidencia a favor y en contra, citando fuentes, y la próxima mejor pregunta.
 
-Rótula no diagnostica: organiza la información para que el profesional decida con mejor contexto.
+SOMA no diagnostica: organiza la información para que el profesional decida con mejor contexto.
 
 ## Roadmap
 Interoperabilidad HL7 FHIR (Ley 27.706), grafo clínico, consejo de agentes especialistas, red de conocimiento colectivo con consentimiento, alertas con criterios validados, cifrado y auditoría de accesos.

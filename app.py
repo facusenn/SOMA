@@ -1,4 +1,4 @@
-"""Rótula: tu historial clínico holístico, listo para la próxima consulta.
+"""SOMA: tu historial clínico holístico, listo para la próxima consulta.
 
 No diagnostica. Junta lo que vivís (síntomas, ánimo, sueño, estudios de cualquier
 institución) y lo convierte en un resumen de una página para que tu médico llegue con contexto.
@@ -14,7 +14,7 @@ import markdown
 from flask import Flask, g, redirect, render_template, request, url_for
 
 app = Flask(__name__)
-DB_PATH = os.environ.get("DB_PATH", os.path.join(os.path.dirname(__file__), "rotula.db"))
+DB_PATH = os.environ.get("DB_PATH", os.path.join(os.path.dirname(__file__), "soma.db"))
 MODEL = os.environ.get("CLAUDE_MODEL", "claude-sonnet-5-5")
 
 _client = None
