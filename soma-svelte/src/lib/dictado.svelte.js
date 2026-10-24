@@ -1,6 +1,6 @@
 import { invalidate } from '$app/navigation';
 import { avisar, avisarError } from '$lib/toast.svelte.js';
-import { api, validarArchivo } from '$lib/api.js';
+import { api, subir, validarArchivo } from '$lib/api.js';
 import { ui } from '$lib/estado.svelte.js';
 import { TIPOS } from '$lib/ui.js';
 import { MotorVoz } from '$lib/motorVoz.js';
@@ -46,11 +46,12 @@ export async function subirEstudio(archivo) {
 		return avisarError(e);
 	}
 	ui.subiendo = true;
+	ui.subida = { nombre: archivo.name, progreso: 0 };
 	const form = new FormData();
 	form.append('archivo', archivo);
 	if (ui.pendienteEstudio) form.append('evento_id', ui.pendienteEstudio.id);
 	try {
-		const est = await api('/api/estudios', { method: 'POST', body: form });
+		const est = await subir('/api/estudios', form, (p) => ui.subida && (ui.subida.progreso = p));
 		ui.pendienteEstudio = null;
 		await invalidate('soma:db');
 		if (est.valores?.length)
@@ -60,6 +61,7 @@ export async function subirEstudio(archivo) {
 		avisarError(e, 'No se pudo subir el estudio');
 	} finally {
 		ui.subiendo = false;
+		ui.subida = null;
 	}
 }
 

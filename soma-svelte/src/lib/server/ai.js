@@ -51,6 +51,7 @@ async function llamarUnaVez(model, messages, max_tokens) {
 
 const rapido = () => env.OPENROUTER_MODEL_FAST || 'anthropic/claude-haiku-5.5';
 const potente = () => env.OPENROUTER_MODEL || 'anthropic/claude-sonnet-5.5';
+const lector = () => env.OPENROUTER_MODEL_OCR || 'anthropic/claude-opus-5.5';
 
 const SISTEMA_EVENTO = `Sos el registrador de SOMA, una plataforma donde una persona dicta lo que le pasa con su salud.
 Convertí el dictado en UN evento. Respondé SOLO un objeto JSON, sin texto extra:
@@ -96,7 +97,7 @@ export async function extraerEstudio(nombre, mime, base64) {
 		? { type: 'image_url', image_url: { url: `data:${mime};base64,${base64}` } }
 		: { type: 'file', file: { filename: nombre, file_data: `data:${mime};base64,${base64}` } };
 	return llamar(
-		potente(),
+		lector(),
 		[
 			{ role: 'system', content: SISTEMA_ESTUDIO },
 			{ role: 'user', content: [{ type: 'text', text: `Archivo: ${nombre}` }, adjunto] }

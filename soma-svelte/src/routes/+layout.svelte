@@ -139,12 +139,25 @@
 	hidden
 	bind:this={inputArchivo}
 	onchange={async (e) => {
-		await subirEstudio(e.currentTarget.files[0]);
-		e.currentTarget.value = '';
+		const input = e.currentTarget; // después del await currentTarget ya es null
+		await subirEstudio(input.files[0]);
+		input.value = '';
 	}}
 />
 
 <div class="toasts" aria-live="polite">
+	{#if ui.subida}
+		{@const leyendo = ui.subida.progreso >= 1}
+		<div class="toast subida" role="status">
+			<span class="t-ico spin"><Icon name={leyendo ? 'sparkles' : 'refresh'} size={16} /></span>
+			<div class="t-txt">
+				<strong>{leyendo ? 'Leyendo el estudio con IA…' : `Subiendo estudio… ${Math.round(ui.subida.progreso * 100)}%`}</strong>
+				<span class="nombre">{ui.subida.nombre}</span>
+				<span class="muted">{leyendo ? 'Puede tardar hasta un minuto. Podés seguir usando la app.' : 'No cierres la página hasta que termine.'}</span>
+			</div>
+			<span class="progreso" class:indeterminado={leyendo}><span style="width:{Math.round(ui.subida.progreso * 100)}%"></span></span>
+		</div>
+	{/if}
 	{#each toasts as t (t.id)}
 		<div class="toast {t.tipo}" role={t.tipo === 'error' ? 'alert' : 'status'}>
 			<span class="t-ico"><Icon name={t.id === 'red' && t.tipo === 'aviso' ? 'wifioff' : ICONO_TOAST[t.tipo] ?? 'info'} size={16} /></span>
@@ -221,6 +234,13 @@
 	.t-barra { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: var(--c); opacity: 0.35; transform-origin: left; animation: consume linear forwards; }
 	@keyframes consume { from { transform: scaleX(1); } to { transform: scaleX(0); } }
 	.derecha { display: flex; align-items: center; gap: 10px; }
+
+	.toast.subida { --c: var(--brand); --cbg: var(--brand-soft); padding-bottom: 16px; }
+	.toast.subida .nombre { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-2); }
+	.progreso { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--brand-soft); overflow: hidden; }
+	.progreso span { display: block; height: 100%; background: var(--brand); transition: width 0.2s ease-out; }
+	.progreso.indeterminado span { width: 35% !important; animation: vaiven 1.2s ease-in-out infinite; }
+	@keyframes vaiven { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
 
 	@media (max-width: 900px) {
 		.app { grid-template-columns: 1fr; }

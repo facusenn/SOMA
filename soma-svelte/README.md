@@ -38,7 +38,8 @@ A mano:
 Con HTTPS real la app se puede instalar como PWA (Chrome/Edge: botón "Instalar app"; iPhone: Compartir → Agregar a inicio).
 En Render el disco es efímero: `data/db.json` vuelve al seed en cada deploy.
 
-Variables: `OPENROUTER_API_KEY`, `OPENROUTER_MODEL` (análisis y estudios, por defecto `anthropic/claude-sonnet-5.5`),
+Variables: `OPENROUTER_API_KEY`, `OPENROUTER_MODEL` (análisis, por defecto `anthropic/claude-sonnet-5.5`),
+`OPENROUTER_MODEL_OCR` (lectura de estudios, por defecto `anthropic/claude-opus-5.5`),
 `OPENROUTER_MODEL_FAST` (registro de eventos, por defecto `anthropic/claude-haiku-5.5`).
 
 ## Datos
