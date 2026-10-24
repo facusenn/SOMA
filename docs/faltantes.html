@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rótula</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <style>
+    .prose h2 { font-weight: 700; font-size: 1.05rem; margin: 1.2rem 0 .4rem; color: #0f766e; }
+    .prose ul, .prose ol { padding-left: 1.2rem; margin: .3rem 0; }
+    .prose ul { list-style: disc; } .prose ol { list-style: decimal; }
+    .prose table { width: 100%; border-collapse: collapse; font-size: .85rem; margin: .4rem 0; }
+    .prose th, .prose td { border: 1px solid #e2e8f0; padding: .3rem .5rem; text-align: left; }
+    .prose th { background: #f0fdfa; }
+    .prose em { color: #64748b; }
+    @media print { .no-print { display: none !important; } body { background: white; } }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+  <header class="bg-white border-b no-print">
+    <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="font-bold text-teal-700 text-lg">🩺 Rótula</a>
+      <nav class="flex items-center gap-2">
+        <a href="consultorio.html" class="text-sm text-slate-600 hover:text-teal-700 px-2">🩻 Modo consultorio</a>
+        <a href="consulta_form.html" class="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-4 py-2 rounded-lg">Preparar mi consulta</a>
+      </nav>
+    </div>
+  </header>
+  <main class="max-w-3xl mx-auto px-4 py-6"><p class="no-print mb-4 text-xs text-slate-600 bg-slate-100 rounded px-2 py-1">Demo navegable con datos ficticios. La carga de datos y la AI en vivo están en la versión con servidor.</p>
+<div class="flex gap-2 mb-4 no-print">
+  <button onclick="window.print()" class="bg-slate-800 text-white text-sm px-4 py-2 rounded-lg">Imprimir / PDF</button>
+  <a href="index.html" class="text-sm px-4 py-2 rounded-lg border">Volver</a>
+</div>
+<article class="bg-white rounded-xl shadow-sm p-6">
+  <div class="flex justify-between items-start border-b pb-3 mb-2">
+    <div>
+      <h1 class="text-xl font-bold">¿Te hiciste ver esto?</h1>
+      <p class="text-sm text-slate-600">Paciente: Lucía G., 29 años</p>
+    </div>
+    <p class="text-xs text-slate-500">Generado 24/10/2026 14:42</p>
+  </div>
+  <div class="prose"><h2>Lo que ya te hiciste</h2>
+<p>Hemograma (3 veces), ferritina, TSH, glucemia, B12, GOT y sodio, en un hospital público, una prepaga y una guardia.</p>
+<h2>Lo que sentís y tus valores</h2>
+<ul>
+<li><strong>Dolor en rodillas y hombros</strong>: la <strong>vitamina D</strong> y el <strong>calcio</strong> no aparecen en ninguno de tus estudios. Su déficit se asocia a dolor óseo y articular, y la <strong>albúmina</strong> (la proteína que transporta el calcio) ayuda a interpretarlo.</li>
+<li><strong>Cansancio</strong>: tu <strong>ferritina</strong> está baja (8) y la <strong>B12</strong> dentro del rango pero bajo del óptimo (260).</li>
+<li><strong>Caída de cabello y aftas</strong>: ferritina baja; <strong>zinc</strong> y <strong>ácido fólico</strong> sin medir.</li>
+</ul>
+<h2>¿Te hiciste ver esto?</h2>
+<ul>
+<li><strong>Anticuerpos anti-transglutaminasa IgA + IgA total</strong>: la anemia por falta de hierro con hinchazón después de las harinas a veces tiene que ver con la absorción.</li>
+<li><strong>Vitamina D (25-OH)</strong>: no aparece en ninguno de tus estudios y su déficit se asocia a cansancio.</li>
+<li><strong>Ácido fólico y zinc</strong>: suelen bajar junto con el hierro cuando el intestino no absorbe bien; las aftas y la caída de pelo son motivo frecuente para mirarlos.</li>
+<li><strong>Magnesio</strong>: puede influir en el cansancio y el sueño.</li>
+<li><strong>Calprotectina fecal</strong>: ayuda a evaluar inflamación intestinal ante diarrea y pérdida de peso.</li>
+<li><strong>Hepatograma completo</strong>: la GOT apareció alta una vez y no se repitió.</li>
+</ul>
+<h2>Valores "normales" que conviene mirar de nuevo</h2>
+<ul>
+<li><strong>Ferritina 22</strong> (febrero): dentro del rango (15-150) pero bajo del óptimo (50-150). Cinco meses después estaba en 8.</li>
+<li><strong>Hemoglobina 12.3</strong> (febrero): en el límite inferior.</li>
+<li><strong>Vitamina B12 260</strong> (julio): dentro del rango pero bajo del óptimo (400-900).</li>
+</ul>
+<p><em>Llevá esta lista como preguntas a tu médico: es quien decide qué estudios corresponden.</em></p></div>
+</article>
+</main>
+  <footer class="max-w-3xl mx-auto px-4 pb-8 text-xs text-slate-500 no-print">
+    Rótula no diagnostica ni reemplaza a tu médico. Ordena tu información para que la consulta rinda más.
+    Tus datos son tuyos: la información de la comunidad se usa solo de forma anónima y con tu consentimiento.
+  </footer>
+<script>
+  // Dictado por voz con la Web Speech API del navegador (Chrome / Edge / Android).
+  function dictar(btn, targetId, continuo) {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { alert("Tu navegador no soporta dictado. Probá con Chrome."); return; }
+    if (btn._rec) { btn._rec.stop(); return; }
+    const rec = new SR(), target = document.getElementById(targetId), base = target.value;
+    rec.lang = "es-AR"; rec.interimResults = true; rec.continuous = !!continuo;
+    rec.onresult = e => {
+      let t = ""; for (const r of e.results) t += r[0].transcript + " ";
+      target.value = (base ? base + " " : "") + t.trim();
+    };
+    rec.onend = () => { btn._rec = null; btn.classList.remove("animate-pulse", "bg-red-600"); };
+    btn._rec = rec; btn.classList.add("animate-pulse", "bg-red-600"); rec.start();
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rótula</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <style>
+    .prose h2 { font-weight: 700; font-size: 1.05rem; margin: 1.2rem 0 .4rem; color: #0f766e; }
+    .prose ul, .prose ol { padding-left: 1.2rem; margin: .3rem 0; }
+    .prose ul { list-style: disc; } .prose ol { list-style: decimal; }
+    .prose table { width: 100%; border-collapse: collapse; font-size: .85rem; margin: .4rem 0; }
+    .prose th, .prose td { border: 1px solid #e2e8f0; padding: .3rem .5rem; text-align: left; }
+    .prose th { background: #f0fdfa; }
+    .prose em { color: #64748b; }
+    @media print { .no-print { display: none !important; } body { background: white; } }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+  <header class="bg-white border-b no-print">
+    <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="font-bold text-teal-700 text-lg">🩺 Rótula</a>
+      <nav class="flex items-center gap-2">
+        <a href="consultorio.html" class="text-sm text-slate-600 hover:text-teal-700 px-2">🩻 Modo consultorio</a>
+        <a href="consulta_form.html" class="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-4 py-2 rounded-lg">Preparar mi consulta</a>
+      </nav>
+    </div>
+  </header>
+  <main class="max-w-3xl mx-auto px-4 py-6"><p class="no-print mb-4 text-xs text-slate-600 bg-slate-100 rounded px-2 py-1">Demo navegable con datos ficticios. La carga de datos y la AI en vivo están en la versión con servidor.</p>
+<div class="flex gap-2 mb-4 no-print">
+  <button onclick="window.print()" class="bg-slate-800 text-white text-sm px-4 py-2 rounded-lg">Imprimir / PDF</button>
+  <a href="index.html" class="text-sm px-4 py-2 rounded-lg border">Volver</a>
+</div>
+<article class="bg-white rounded-xl shadow-sm p-6">
+  <div class="flex justify-between items-start border-b pb-3 mb-2">
+    <div>
+      <h1 class="text-xl font-bold">Resumen para la consulta</h1>
+      <p class="text-sm text-slate-600">Paciente: Lucía G., 29 años</p>
+    </div>
+    <p class="text-xs text-slate-500">Generado 24/10/2026 14:42</p>
+  </div>
+  <div class="prose"><h2>Motivo de consulta (en palabras del paciente)</h2>
+<p>"Hace 8 meses estoy cansada, me hincho después de comer y siento que nadie me cree."</p>
+<h2>Línea de tiempo</h2>
+<ul>
+<li><strong>Feb 2026</strong>: fatiga persistente. Clínico: atribuido a estrés. Laboratorio en <strong>Hospital Provincial (público)</strong> informado como normal.</li>
+<li><strong>Mar 2026</strong>: distensión y dolor cólico después de comer pastas y pan.</li>
+<li><strong>May 2026</strong>: gastroenterología: colon irritable. Antiespasmódico sin mejoría.</li>
+<li><strong>Jun 2026</strong>: caída de cabello, aftas orales recurrentes, diarrea 2-3 veces por semana.</li>
+<li><strong>Jul 2026</strong>: laboratorio en <strong>Sanatorio Parque (prepaga)</strong>: anemia microcítica, ferritina 8.</li>
+<li><strong>Ago 2026</strong>: pérdida de 4 kg involuntaria, mareos ortostáticos.</li>
+<li><strong>Sep 2026</strong>: <strong>Guardia Hospital Centenario</strong>: Hb 10.5, indicación de hidratación.</li>
+<li><strong>Oct 2026</strong>: ánimo bajo, insomnio, síntomas digestivos persistentes.</li>
+</ul>
+<h2>Síntomas recurrentes</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Desde cuándo</th>
+<th>Intensidad prom.</th>
+<th>Factores asociados</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fatiga</td>
+<td>Feb 2026</td>
+<td>7/10</td>
+<td>Empeora con el tiempo</td>
+</tr>
+<tr>
+<td>Distensión abdominal</td>
+<td>Mar 2026</td>
+<td>6.5/10</td>
+<td>Después de harinas</td>
+</tr>
+<tr>
+<td>Diarrea</td>
+<td>Jun 2026</td>
+<td>6/10</td>
+<td>Sin desencadenante claro</td>
+</tr>
+<tr>
+<td>Aftas orales</td>
+<td>Jun 2026</td>
+<td>4/10</td>
+<td></td>
+</tr>
+<tr>
+<td>Mareo ortostático</td>
+<td>Ago 2026</td>
+<td>5.5/10</td>
+<td>Al incorporarse</td>
+</tr>
+</tbody>
+</table>
+<h2>Bienestar emocional y general</h2>
+<p>Ánimo, sueño y energía en descenso sostenido (promedio 2/5). Refiere frustración por consultas sin respuesta.</p>
+<h2>Estudios: valores a revisar</h2>
+<table>
+<thead>
+<tr>
+<th>Valor</th>
+<th>Resultado</th>
+<th>Referencia</th>
+<th>Óptimo</th>
+<th>Estado</th>
+<th>Institución y fecha</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ferritina</td>
+<td>22 → <strong>8</strong> ng/mL</td>
+<td>15-150</td>
+<td>50-150</td>
+<td>Bajo del óptimo → <strong>bajo</strong></td>
+<td>Público feb → Prepaga jul</td>
+</tr>
+<tr>
+<td>Hemoglobina</td>
+<td>12.3 → <strong>10.8</strong> → <strong>10.5</strong> g/dL</td>
+<td>12-16</td>
+<td>13-15.5</td>
+<td>Bajo del óptimo → <strong>bajo</strong></td>
+<td>Feb → Jul → Sep</td>
+</tr>
+<tr>
+<td>VCM</td>
+<td><strong>76</strong> fL</td>
+<td>80-100</td>
+<td></td>
+<td><strong>Bajo</strong></td>
+<td>Prepaga jul</td>
+</tr>
+<tr>
+<td>Vitamina B12</td>
+<td>260 pg/mL</td>
+<td>200-900</td>
+<td>400-900</td>
+<td>Bajo del óptimo</td>
+<td>Prepaga jul</td>
+</tr>
+<tr>
+<td>GOT</td>
+<td><strong>41</strong> U/L</td>
+<td>5-35</td>
+<td></td>
+<td><strong>Alto</strong></td>
+<td>Prepaga jul</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tendencia:</strong> en febrero la ferritina y la hemoglobina ya estaban en el límite inferior aunque se informaron como normales.</p>
+<h2>Síntomas y valores relacionados</h2>
+<table>
+<thead>
+<tr>
+<th>Síntoma</th>
+<th>Marcador a evaluar</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dolor articular (rodillas, hombros)</td>
+<td>Vitamina D, calcio, albúmina, PCR</td>
+<td><strong>Sin medir</strong></td>
+</tr>
+<tr>
+<td>Fatiga</td>
+<td>Ferritina 8 · B12 260 · Vitamina D</td>
+<td><strong>Bajo</strong> · bajo del óptimo · sin medir</td>
+</tr>
+<tr>
+<td>Caída de cabello</td>
+<td>Ferritina · zinc</td>
+<td><strong>Bajo</strong> · sin medir</td>
+</tr>
+<tr>
+<td>Aftas</td>
+<td>B12 · ácido fólico</td>
+<td>Bajo del óptimo · sin medir</td>
+</tr>
+</tbody>
+</table>
+<h2>Estudios que todavía no aparecen en la historia</h2>
+<ul>
+<li><strong>Anticuerpos anti-transglutaminasa IgA + IgA total</strong>: ¿corresponde descartar celiaquía ante anemia ferropénica sin causa clara?</li>
+<li><strong>Vitamina D, ácido fólico, zinc</strong>: déficits frecuentes cuando hay malabsorción.</li>
+<li><strong>Calprotectina fecal</strong>: ante diarrea intermitente y pérdida de peso.</li>
+</ul>
+<h2>Patrones en casos similares de la comunidad</h2>
+<p>37 personas con un patrón parecido (fatiga, distensión con harinas, anemia ferropénica y aftas) registraron que les fue útil pedir <strong>anticuerpos anti-transglutaminasa IgA con IgA total</strong> y una derivación a gastroenterología para evaluar <strong>endoscopía con biopsia</strong>. <em>Información orientativa y anónima, no es una indicación.</em></p>
+<h2>Preguntas que el paciente quiere hacer</h2>
+<ol>
+<li>¿La anemia con ferritina baja puede deberse a un problema de absorción?</li>
+<li>¿Corresponde descartar enfermedad celíaca antes de cambiar la dieta?</li>
+<li>¿La transaminasa elevada se relaciona con el resto del cuadro?</li>
+<li>¿Hace falta suplementar hierro o B12 mientras se estudia?</li>
+<li>¿Qué seguimiento me sugiere para el ánimo y el sueño?</li>
+</ol>
+<p><em>Resumen generado con AI a partir de registros del paciente. No reemplaza el criterio médico.</em></p></div>
+</article>
+</main>
+  <footer class="max-w-3xl mx-auto px-4 pb-8 text-xs text-slate-500 no-print">
+    Rótula no diagnostica ni reemplaza a tu médico. Ordena tu información para que la consulta rinda más.
+    Tus datos son tuyos: la información de la comunidad se usa solo de forma anónima y con tu consentimiento.
+  </footer>
+<script>
+  // Dictado por voz con la Web Speech API del navegador (Chrome / Edge / Android).
+  function dictar(btn, targetId, continuo) {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { alert("Tu navegador no soporta dictado. Probá con Chrome."); return; }
+    if (btn._rec) { btn._rec.stop(); return; }
+    const rec = new SR(), target = document.getElementById(targetId), base = target.value;
+    rec.lang = "es-AR"; rec.interimResults = true; rec.continuous = !!continuo;
+    rec.onresult = e => {
+      let t = ""; for (const r of e.results) t += r[0].transcript + " ";
+      target.value = (base ? base + " " : "") + t.trim();
+    };
+    rec.onend = () => { btn._rec = null; btn.classList.remove("animate-pulse", "bg-red-600"); };
+    btn._rec = rec; btn.classList.add("animate-pulse", "bg-red-600"); rec.start();
+  }
+</script>
+</body>
+</html>

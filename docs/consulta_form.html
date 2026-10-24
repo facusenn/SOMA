@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rótula</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <style>
+    .prose h2 { font-weight: 700; font-size: 1.05rem; margin: 1.2rem 0 .4rem; color: #0f766e; }
+    .prose ul, .prose ol { padding-left: 1.2rem; margin: .3rem 0; }
+    .prose ul { list-style: disc; } .prose ol { list-style: decimal; }
+    .prose table { width: 100%; border-collapse: collapse; font-size: .85rem; margin: .4rem 0; }
+    .prose th, .prose td { border: 1px solid #e2e8f0; padding: .3rem .5rem; text-align: left; }
+    .prose th { background: #f0fdfa; }
+    .prose em { color: #64748b; }
+    @media print { .no-print { display: none !important; } body { background: white; } }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+  <header class="bg-white border-b no-print">
+    <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="font-bold text-teal-700 text-lg">🩺 Rótula</a>
+      <nav class="flex items-center gap-2">
+        <a href="consultorio.html" class="text-sm text-slate-600 hover:text-teal-700 px-2">🩻 Modo consultorio</a>
+        <a href="consulta_form.html" class="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-4 py-2 rounded-lg">Preparar mi consulta</a>
+      </nav>
+    </div>
+  </header>
+  <main class="max-w-3xl mx-auto px-4 py-6"><p class="no-print mb-4 text-xs text-slate-600 bg-slate-100 rounded px-2 py-1">Demo navegable con datos ficticios. La carga de datos y la AI en vivo están en la versión con servidor.</p>
+<form action="consulta.html" method="get" class="bg-white rounded-xl shadow-sm p-5 space-y-4" onsubmit="this.querySelector('button').textContent='Preparando tu resumen…'; this.querySelector('button').disabled=true">
+  <h1 class="text-xl font-bold">Preparar mi consulta</h1>
+  <p class="text-sm text-slate-600">Juntamos tu diario, tus estudios y lo que aprendieron otras personas con síntomas parecidos, y armamos un resumen de una página para tu médico.</p>
+  <label class="block text-sm font-semibold">¿Qué querés resolver en esta consulta?
+    <textarea name="motivo" rows="3" class="w-full border rounded-lg p-2 mt-1 font-normal"
+      placeholder="Ej: hace 8 meses estoy cansada y me hincho al comer, quiero saber qué tengo">Hace 8 meses estoy cansada, me hincho después de comer y siento que nadie me cree.</textarea></label>
+  <label class="flex items-center justify-between text-sm font-semibold">Idioma del resumen
+    <select name="idioma" class="border rounded-lg p-1 font-normal">
+      <option>español</option><option>inglés</option><option>portugués</option><option>italiano</option>
+    </select></label>
+  <p class="text-xs text-slate-500">Pasaporte de salud: llevá tu historia a otra ciudad, país o especialista.</p>
+  <button class="w-full bg-teal-600 text-white rounded-lg py-3 font-semibold">Generar resumen para el médico</button>
+</form>
+</main>
+  <footer class="max-w-3xl mx-auto px-4 pb-8 text-xs text-slate-500 no-print">
+    Rótula no diagnostica ni reemplaza a tu médico. Ordena tu información para que la consulta rinda más.
+    Tus datos son tuyos: la información de la comunidad se usa solo de forma anónima y con tu consentimiento.
+  </footer>
+<script>
+  // Dictado por voz con la Web Speech API del navegador (Chrome / Edge / Android).
+  function dictar(btn, targetId, continuo) {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { alert("Tu navegador no soporta dictado. Probá con Chrome."); return; }
+    if (btn._rec) { btn._rec.stop(); return; }
+    const rec = new SR(), target = document.getElementById(targetId), base = target.value;
+    rec.lang = "es-AR"; rec.interimResults = true; rec.continuous = !!continuo;
+    rec.onresult = e => {
+      let t = ""; for (const r of e.results) t += r[0].transcript + " ";
+      target.value = (base ? base + " " : "") + t.trim();
+    };
+    rec.onend = () => { btn._rec = null; btn.classList.remove("animate-pulse", "bg-red-600"); };
+    btn._rec = rec; btn.classList.add("animate-pulse", "bg-red-600"); rec.start();
+  }
+</script>
+</body>
+</html>

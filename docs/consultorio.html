@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rótula</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <style>
+    .prose h2 { font-weight: 700; font-size: 1.05rem; margin: 1.2rem 0 .4rem; color: #0f766e; }
+    .prose ul, .prose ol { padding-left: 1.2rem; margin: .3rem 0; }
+    .prose ul { list-style: disc; } .prose ol { list-style: decimal; }
+    .prose table { width: 100%; border-collapse: collapse; font-size: .85rem; margin: .4rem 0; }
+    .prose th, .prose td { border: 1px solid #e2e8f0; padding: .3rem .5rem; text-align: left; }
+    .prose th { background: #f0fdfa; }
+    .prose em { color: #64748b; }
+    @media print { .no-print { display: none !important; } body { background: white; } }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+  <header class="bg-white border-b no-print">
+    <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="font-bold text-teal-700 text-lg">🩺 Rótula</a>
+      <nav class="flex items-center gap-2">
+        <a href="consultorio.html" class="text-sm text-slate-600 hover:text-teal-700 px-2">🩻 Modo consultorio</a>
+        <a href="consulta_form.html" class="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-4 py-2 rounded-lg">Preparar mi consulta</a>
+      </nav>
+    </div>
+  </header>
+  <main class="max-w-3xl mx-auto px-4 py-6"><p class="no-print mb-4 text-xs text-slate-600 bg-slate-100 rounded px-2 py-1">Demo navegable con datos ficticios. La carga de datos y la AI en vivo están en la versión con servidor.</p>
+<form action="nota.html" method="get" class="bg-white rounded-xl shadow-sm p-5 space-y-4" onsubmit="this.querySelector('button[type=submit]').textContent='Escribiendo la nota…'">
+  <h1 class="text-xl font-bold">🩻 Modo consultorio</h1>
+  <p class="text-sm text-slate-600">Con el consentimiento de la paciente, Rótula escucha la consulta y escribe la nota clínica. El médico mira a la paciente, no a la pantalla.</p>
+  <div class="flex gap-2">
+    <button type="button" onclick="dictar(this, 'transcripcion', true)" class="bg-teal-600 text-white text-sm font-semibold px-4 py-2 rounded-lg">🎤 Escuchar consulta</button>
+    <button type="button" onclick="document.getElementById('transcripcion').value = document.getElementById('ejemplo').textContent" class="text-sm px-4 py-2 rounded-lg border">Cargar ejemplo</button>
+  </div>
+  <textarea id="transcripcion" name="transcripcion" rows="8" required class="w-full border rounded-lg p-2 text-sm" placeholder="La transcripción aparece acá mientras hablan…"></textarea>
+  <div id="ejemplo" class="hidden">Médica: Hola Lucía, contame qué te trae. Paciente: Hace ocho meses que estoy muy cansada, me hincho cuando como pan o pastas y tengo diarrea un par de veces por semana. Médica: Veo en tu resumen que la ferritina bajó de 22 a 8 y la hemoglobina está en 10.5. ¿Perdiste peso? Paciente: Sí, cuatro kilos sin hacer dieta. Médica: Te palpo el abdomen... está blando, algo distendido, sin dolor a la palpación. Bueno, con este cuadro quiero descartar enfermedad celíaca. Te pido anticuerpos antitransglutaminasa IgA con IgA total, vitamina D, ácido fólico y un hepatograma. No dejes de comer gluten hasta tener el resultado. Te indico hierro por boca y te veo en tres semanas con los análisis.</div>
+  <button type="submit" class="w-full bg-slate-800 text-white rounded-lg py-3 font-semibold">Generar nota clínica</button>
+</form>
+
+<form action="investigar.html" method="get" class="mt-4 bg-white rounded-xl shadow-sm p-5 space-y-3" onsubmit="this.querySelector('button').textContent='Investigando el caso…'">
+  <h2 class="font-semibold">🔬 Investigador de caso</h2>
+  <p class="text-sm text-slate-600">Para casos de larga evolución: cruza toda la historia de la paciente, propone hipótesis con evidencia a favor y en contra (citando cada fuente) y la próxima pregunta más útil.</p>
+  <button class="w-full bg-teal-700 text-white rounded-lg py-3 font-semibold">Investigar caso de Lucía</button>
+</form>
+</main>
+  <footer class="max-w-3xl mx-auto px-4 pb-8 text-xs text-slate-500 no-print">
+    Rótula no diagnostica ni reemplaza a tu médico. Ordena tu información para que la consulta rinda más.
+    Tus datos son tuyos: la información de la comunidad se usa solo de forma anónima y con tu consentimiento.
+  </footer>
+<script>
+  // Dictado por voz con la Web Speech API del navegador (Chrome / Edge / Android).
+  function dictar(btn, targetId, continuo) {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { alert("Tu navegador no soporta dictado. Probá con Chrome."); return; }
+    if (btn._rec) { btn._rec.stop(); return; }
+    const rec = new SR(), target = document.getElementById(targetId), base = target.value;
+    rec.lang = "es-AR"; rec.interimResults = true; rec.continuous = !!continuo;
+    rec.onresult = e => {
+      let t = ""; for (const r of e.results) t += r[0].transcript + " ";
+      target.value = (base ? base + " " : "") + t.trim();
+    };
+    rec.onend = () => { btn._rec = null; btn.classList.remove("animate-pulse", "bg-red-600"); };
+    btn._rec = rec; btn.classList.add("animate-pulse", "bg-red-600"); rec.start();
+  }
+</script>
+</body>
+</html>

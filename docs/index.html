@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rótula</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <style>
+    .prose h2 { font-weight: 700; font-size: 1.05rem; margin: 1.2rem 0 .4rem; color: #0f766e; }
+    .prose ul, .prose ol { padding-left: 1.2rem; margin: .3rem 0; }
+    .prose ul { list-style: disc; } .prose ol { list-style: decimal; }
+    .prose table { width: 100%; border-collapse: collapse; font-size: .85rem; margin: .4rem 0; }
+    .prose th, .prose td { border: 1px solid #e2e8f0; padding: .3rem .5rem; text-align: left; }
+    .prose th { background: #f0fdfa; }
+    .prose em { color: #64748b; }
+    @media print { .no-print { display: none !important; } body { background: white; } }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+  <header class="bg-white border-b no-print">
+    <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="font-bold text-teal-700 text-lg">🩺 Rótula</a>
+      <nav class="flex items-center gap-2">
+        <a href="consultorio.html" class="text-sm text-slate-600 hover:text-teal-700 px-2">🩻 Modo consultorio</a>
+        <a href="consulta_form.html" class="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-4 py-2 rounded-lg">Preparar mi consulta</a>
+      </nav>
+    </div>
+  </header>
+  <main class="max-w-3xl mx-auto px-4 py-6"><p class="no-print mb-4 text-xs text-slate-600 bg-slate-100 rounded px-2 py-1">Demo navegable con datos ficticios. La carga de datos y la AI en vivo están en la versión con servidor.</p>
+<section class="mb-6">
+  <h1 class="text-2xl font-bold">Hola, Lucía</h1>
+  <p class="text-slate-600">Tu historia clínica es tuya, no de la clínica donde te atendiste. Contá cómo te sentís y subí estudios de cualquier lugar.</p>
+  <div class="flex flex-wrap gap-1 mt-2">
+    <span class="text-xs bg-white border rounded-full px-2 py-0.5">🏥 Guardia Hospital Centenario (público)</span><span class="text-xs bg-white border rounded-full px-2 py-0.5">🏥 Hospital Provincial de Rosario (público)</span><span class="text-xs bg-white border rounded-full px-2 py-0.5">🏥 Sanatorio Parque (prepaga)</span>
+  </div>
+  
+</section>
+
+
+<form action="faltantes.html" method="get" class="mb-6 bg-amber-50 border border-amber-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center gap-3" onsubmit="this.querySelector('button').textContent='Buscando…'">
+  <div class="flex-1 text-sm">
+    <p class="font-semibold text-amber-900">Tus análisis "dan normal" pero seguís sintiéndote mal</p>
+    <p class="text-amber-800">Encontramos 3 valores dentro del rango pero <b>bajo del óptimo</b>, y estudios que todavía no te hiciste.</p>
+  </div>
+  <button class="bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold px-4 py-2 rounded-lg whitespace-nowrap">¿Te hiciste ver esto?</button>
+</form>
+
+
+
+<section class="mb-6 bg-white rounded-xl shadow-sm p-4">
+  <h2 class="font-semibold">🔗 Lo que sentís y tus valores</h2>
+  <p class="text-xs text-slate-500 mb-3">Valores que podrían estar relacionados con tus síntomas. Son preguntas para tu médico, no causas confirmadas.</p>
+  <div class="grid sm:grid-cols-2 gap-3">
+    
+    <div class="border rounded-lg p-3">
+      <p class="text-sm font-semibold capitalize">articular</p>
+      <ul class="mt-1 space-y-1">
+        
+        <li class="text-xs flex justify-between gap-2" title="su déficit se asocia a dolor óseo y articular">
+          <span>Vitamina D</span>
+          <span class="text-slate-500">sin medir</span>
+          
+        </li>
+        
+        <li class="text-xs flex justify-between gap-2" title="participa en la salud ósea y muscular">
+          <span>Calcio</span>
+          <span class="text-slate-500">sin medir</span>
+          
+        </li>
+        
+        <li class="text-xs flex justify-between gap-2" title="proteína que transporta calcio y otras sustancias en la sangre">
+          <span>Albúmina</span>
+          <span class="text-slate-500">sin medir</span>
+          
+        </li>
+        
+        <li class="text-xs flex justify-between gap-2" title="marcador de inflamación">
+          <span>PCR</span>
+          <span class="text-slate-500">sin medir</span>
+          
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="border rounded-lg p-3">
+      <p class="text-sm font-semibold capitalize">fatiga</p>
+      <ul class="mt-1 space-y-1">
+        
+        <li class="text-xs flex justify-between gap-2" title="refleja las reservas de hierro">
+          <span>Ferritina</span>
+          <span class="text-red-700 font-semibold">8 · bajo</span>
+          
+        </li>
+        
+        <li class="text-xs flex justify-between gap-2" title="su déficit causa cansancio aunque la hemoglobina sea normal">
+          <span>Vitamina B12</span>
+          <span class="text-amber-700 font-semibold">260 · bajo del óptimo</span>
+        </li>
+        
+        <li class="text-xs flex justify-between gap-2" title="niveles bajos se asocian a cansancio">
+          <span>Vitamina D</span>
+          <span class="text-slate-500">sin medir</span>
+          
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="border rounded-lg p-3">
+      <p class="text-sm font-semibold capitalize">cabello</p>
+      <ul class="mt-1 space-y-1">
+        
+        <li class="text-xs flex justify-between gap-2" title="reservas bajas se asocian a caída de cabello">
+          <span>Ferritina</span>
+          <span class="text-red-700 font-semibold">8 · bajo</span>
+          
+        </li>
+        
+        <li class="text-xs flex justify-between gap-2" title="su déficit se asocia a caída de cabello">
+          <span>Zinc</span>
+          <span class="text-slate-500">sin medir</span>
+          
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="border rounded-lg p-3">
+      <p class="text-sm font-semibold capitalize">aftas</p>
+      <ul class="mt-1 space-y-1">
+        
+        <li class="text-xs flex justify-between gap-2" title="su déficit se asocia a aftas">
+          <span>Vitamina B12</span>
+          <span class="text-amber-700 font-semibold">260 · bajo del óptimo</span>
+        </li>
+        
+        <li class="text-xs flex justify-between gap-2" title="su déficit se asocia a aftas">
+          <span>Ácido fólico</span>
+          <span class="text-slate-500">sin medir</span>
+          
+        </li>
+        
+        <li class="text-xs flex justify-between gap-2" title="la falta de hierro se asocia a aftas">
+          <span>Ferritina</span>
+          <span class="text-red-700 font-semibold">8 · bajo</span>
+          
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="border rounded-lg p-3">
+      <p class="text-sm font-semibold capitalize">insomnio</p>
+      <ul class="mt-1 space-y-1">
+        
+        <li class="text-xs flex justify-between gap-2" title="se asocia a la calidad del sueño">
+          <span>Magnesio</span>
+          <span class="text-slate-500">sin medir</span>
+          
+        </li>
+        
+        <li class="text-xs flex justify-between gap-2" title="el hierro bajo se asocia a piernas inquietas">
+          <span>Ferritina</span>
+          <span class="text-red-700 font-semibold">8 · bajo</span>
+          
+        </li>
+        
+      </ul>
+    </div>
+    
+  </div>
+</section>
+
+
+<div class="grid md:grid-cols-2 gap-4 mb-8">
+  <form action="#" onsubmit="return false" class="bg-white rounded-xl shadow-sm p-4 space-y-3" onsubmit="this.querySelector('button[type=submit]').textContent='Ordenando…'">
+    <h2 class="font-semibold">¿Cómo te sentís hoy?</h2>
+    <div class="relative">
+      <textarea id="texto" name="texto" rows="3" required class="w-full border rounded-lg p-2 pr-12 text-sm"
+        placeholder="Ej: me duele la rodilla desde ayer, dormí mal y estoy muy cansada"></textarea>
+      <button type="button" onclick="dictar(this, 'texto')" title="Dictar por voz"
+        class="absolute right-2 top-2 w-9 h-9 rounded-full bg-teal-600 text-white">🎤</button>
+    </div>
+    <label class="flex items-center justify-between text-sm">¿Desde cuándo?
+      <select name="duracion" class="border rounded-lg p-1 text-sm">
+        <option>Empezó hoy</option><option>Hace unos días</option><option>Hace semanas</option><option>Hace meses</option><option>Viene y va</option>
+      </select></label>
+    
+    <label class="flex items-center justify-between text-sm">Ánimo
+      <input type="range" name="animo" min="1" max="5" value="3" class="w-1/2 accent-teal-600"></label>
+    
+    <label class="flex items-center justify-between text-sm">Sueño
+      <input type="range" name="sueno" min="1" max="5" value="3" class="w-1/2 accent-teal-600"></label>
+    
+    <label class="flex items-center justify-between text-sm">Energía
+      <input type="range" name="energia" min="1" max="5" value="3" class="w-1/2 accent-teal-600"></label>
+    
+    <label class="flex items-start gap-2 text-sm bg-violet-50 rounded-lg p-2">
+      <input type="checkbox" name="emocional" class="mt-1 accent-violet-600">
+      <span>Quiero verlo también desde lo emocional <span class="text-slate-500">(estrés, preocupaciones, cómo te está afectando)</span></span></label>
+    <input type="date" name="fecha" value="2026-10-24" class="border rounded-lg p-1 text-sm">
+    <button type="submit" class="w-full bg-teal-600 text-white rounded-lg py-2 font-semibold">Guardar</button>
+  </form>
+
+  <form action="#" onsubmit="return false" enctype="multipart/form-data" class="bg-white rounded-xl shadow-sm p-4 space-y-3" onsubmit="this.querySelector('button').textContent='Leyendo estudio…'">
+    <h2 class="font-semibold">Subí un estudio</h2>
+    <p class="text-sm text-slate-600">Foto o PDF, de un hospital público, tu prepaga o un laboratorio particular. La AI extrae los valores y marca los que están fuera de rango <b>y los que están bajo del óptimo</b>.</p>
+    <input name="institucion" placeholder="¿Dónde te lo hiciste? (opcional)" class="w-full border rounded-lg p-2 text-sm">
+    <input type="file" name="archivo" accept="image/*,application/pdf" required class="text-sm">
+    <button class="w-full bg-slate-800 text-white rounded-lg py-2 font-semibold">Subir y leer</button>
+  </form>
+</div>
+
+<div class="flex items-center justify-between mb-3">
+  <h2 class="font-semibold text-lg">Tu historia</h2>
+  <div class="flex gap-2 text-xs">
+    <span class="bg-red-100 text-red-800 rounded-full px-2 py-0.5">Fuera de rango</span>
+    <span class="bg-amber-100 text-amber-800 rounded-full px-2 py-0.5">Bajo/alto del óptimo</span>
+  </div>
+</div>
+<ol class="relative border-l-2 border-teal-200 ml-2 space-y-5">
+  
+  <li class="ml-5">
+    <span class="absolute -left-[9px] w-4 h-4 rounded-full bg-teal-500"></span>
+    <div class="text-xs text-slate-500">2026-10-20 · Meses</div>
+    
+    <div class="bg-white rounded-xl shadow-sm p-3 mt-1">
+      <p class="text-sm">“Ánimo bajo, siento que nadie me cree. Duermo mal. La panza igual.”</p>
+      <div class="flex flex-wrap gap-1 mt-2">
+        <span class="text-xs bg-teal-50 text-teal-800 rounded-full px-2 py-0.5">ánimo bajo · 7/10</span><span class="text-xs bg-teal-50 text-teal-800 rounded-full px-2 py-0.5">insomnio · 6/10</span>
+        <span class="text-xs bg-slate-100 text-slate-700 rounded-full px-2 py-0.5">frustración con el sistema de salud</span>
+      </div>
+      <div class="text-xs text-slate-500 mt-2">Ánimo 1/5 · Sueño 2/5 · Energía 1/5</div>
+      
+      <p class="text-sm bg-violet-50 text-violet-900 rounded-lg p-2 mt-2">💜 Ocho meses de síntomas sin respuestas desgastan a cualquiera, y esa frustración puede hacer que duermas peor y que el cuerpo se sienta más pesado. ¿Con quién podés compartir cómo te está afectando esto? Hablar con un psicólogo mientras seguís estudiando la causa física puede ayudarte a transitarlo.</p>
+      
+    </div>
+    
+  </li>
+  
+  <li class="ml-5">
+    <span class="absolute -left-[9px] w-4 h-4 rounded-full bg-teal-500"></span>
+    <div class="text-xs text-slate-500">2026-09-28 · Meses</div>
+    
+    <div class="bg-white rounded-xl shadow-sm p-3 mt-1">
+      <p class="text-sm">“Fui a la guardia por el mareo, me dijeron que tome más agua. Sigo hinchada después de comer.”</p>
+      <div class="flex flex-wrap gap-1 mt-2">
+        <span class="text-xs bg-teal-50 text-teal-800 rounded-full px-2 py-0.5">mareo · 6/10</span><span class="text-xs bg-teal-50 text-teal-800 rounded-full px-2 py-0.5">distensión abdominal · 7/10</span>
+        <span class="text-xs bg-slate-100 text-slate-700 rounded-full px-2 py-0.5">guardia: hidratación</span>
+      </div>
+      <div class="text-xs text-slate-500 mt-2">Ánimo 2/5 · Sueño 2/5 · Energía 1/5</div>
+      
+    </div>
+    
+  </li>
+  
+  <li class="ml-5">
+    <span class="absolute -left-[9px] w-4 h-4 rounded-full bg-slate-800"></span>
+    <div class="text-xs text-slate-500">2026-09-28</div>
+    
+    <div class="bg-white rounded-xl shadow-sm p-3 mt-1 border-l-4 border-slate-800">
+      <p class="text-sm font-semibold">📄 Laboratorio de guardia</p>
+      <p class="text-xs text-slate-500">🏥 Guardia Hospital Centenario (público)</p>
+      <p class="text-sm text-slate-600 mt-1">Hemoglobina sigue baja. Resto sin alteraciones.</p>
+      <div class="flex flex-wrap gap-1 mt-2">
+        
+        
+        <span class="text-xs rounded-full px-2 py-0.5 bg-red-100 text-red-800 font-semibold"
+          title="Referencia 12-16 · Óptimo 13-15.5">
+          ↓
+          Hemoglobina 10.5 g/dL</span>
+        
+        
+        <span class="text-xs rounded-full px-2 py-0.5 bg-slate-100 text-slate-600"
+          title="Referencia 70-110 · Óptimo 75-95">
+          
+          Glucemia 82 mg/dL</span>
+        
+        
+        <span class="text-xs rounded-full px-2 py-0.5 bg-slate-100 text-slate-600"
+          title="Referencia 135-145 · Óptimo 137-143">
+          
+          Sodio 139 mEq/L</span>
+        
+      </div>
+    </div>
+    
+  </li>
+  
+  <li class="ml-5">
+    <span class="absolute -left-[9px] w-4 h-4 rounded-full bg-teal-500"></span>
+    <div class="text-xs text-slate-500">2026-09-10 · Hace semanas</div>
+    
+    <div class="bg-white rounded-xl shadow-sm p-3 mt-1">
+      <p class="text-sm">“Me duelen las rodillas y los hombros, sobre todo a la mañana. Pensé que era del gimnasio pero ya no voy.”</p>
+      <div class="flex flex-wrap gap-1 mt-2">
+        <span class="text-xs bg-teal-50 text-teal-800 rounded-full px-2 py-0.5">dolor articular · 6/10</span>
+        <span class="text-xs bg-slate-100 text-slate-700 rounded-full px-2 py-0.5">sin actividad física reciente</span>
+      </div>
+      <div class="text-xs text-slate-500 mt-2">Ánimo 2/5 · Sueño 2/5 · Energía 2/5</div>
+      
+    </div>
+    
+  </li>
+  
+  <li class="ml-5">
+    <span class="absolute -left-[9px] w-4 h-4 rounded-full bg-teal-500"></span>
+    <div class="text-xs text-slate-500">2026-08-03 · Meses</div>
+    
+    <div class="bg-white rounded-xl shadow-sm p-3 mt-1">
+      <p class="text-sm">“Perdí 4 kilos sin hacer dieta. Me mareo al pararme rápido.”</p>
+      <div class="flex flex-wrap gap-1 mt-2">
+        <span class="text-xs bg-teal-50 text-teal-800 rounded-full px-2 py-0.5">pérdida de peso</span><span class="text-xs bg-teal-50 text-teal-800 rounded-full px-2 py-0.5">mareo ortostático · 5/10</span>
+        <span class="text-xs bg-slate-100 text-slate-700 rounded-full px-2 py-0.5">sin dieta</span>
+      </div>
+      <div class="text-xs text-slate-500 mt-2">Ánimo 2/5 · Sueño 3/5 · Energía 1/5</div>
+      
+    </div>
+    
+  </li>
+  
+  <li class="ml-5">
+    <span class="absolute -left-[9px] w-4 h-4 rounded-full bg-slate-800"></span>
+    <div class="text-xs text-slate-500">2026-07-10</div>
+    
+    <div class="bg-white rounded-xl shadow-sm p-3 mt-1 border-l-4 border-slate-800">
+      <p class="text-sm font-semibold">📄 Análisis de sangre de rutina</p>
+      <p class="text-xs text-slate-500">🏥 Sanatorio Parque (prepaga)</p>
+      <p class="text-sm text-slate-600 mt-1">Hemoglobina y hierro bajos (anemia por falta de hierro). B12 dentro del rango pero baja. Transaminasa levemente alta.</p>
+      <div class="flex flex-wrap gap-1 mt-2">
+        
+        
+        <span class="text-xs rounded-full px-2 py-0.5 bg-red-100 text-red-800 font-semibold"
+          title="Referencia 12-16 · Óptimo 13-15.5">
+          ↓
+          Hemoglobina 10.8 g/dL</span>
+        
+        
+        <span class="text-xs rounded-full px-2 py-0.5 bg-red-100 text-red-800 font-semibold"
+          title="Referencia 15-150 · Óptimo 50-150">
+          ↓
+          Ferritina 8 ng/mL</span>
+        
+        
+        <span class="text-xs rounded-full px-2 py-0.5 bg-red-100 text-red-800 font-semibold"
+          title="Referencia 80-100 · Óptimo 84-96">
+          ↓
+          VCM 76 fL</span>
+        
+        
+        <span class="text-xs rounded-full px-2 py-0.5 bg-amber-100 text-amber-800 font-semibold"
+          title="Referencia 200-900 · Óptimo 400-900">
+          ↓
+          Vitamina B12 260 pg/mL · bajo del óptimo</span>
+        
+        
+        <span class="text-xs rounded-full px-2 py-0.5 bg-red-100 text-red-800 font-semibold"
+          title="Referencia 5-35 · Óptimo 11-29">
+          ↑
+          GOT 41 U/L</span>
+        
+      </div>
+    </div>
+    
+  </li>
+  
+  <li class="ml-5">
+    <span class="absolute -left-[9px] w-4 h-4 rounded-full bg-teal-500"></span>
+    <div class="text-xs text-slate-500">2026-06-15 · Meses</div>
+    
+    <div class="bg-white rounded-xl shadow-sm p-3 mt-1">
+      <p class="text-sm">“Se me cae mucho el pelo y tengo aftas en la boca seguido. Diarrea 2-3 veces por semana.”</p>
+      <div class="flex flex-wrap gap-1 mt-2">
+        <span class="text-xs bg-teal-50 text-teal-800 rounded-full px-2 py-0.5">caída de cabello · 5/10</span><span class="text-xs bg-teal-50 text-teal-800 rounded-full px-2 py-0.5">aftas orales · 4/10</span><span class="text-xs bg-teal-50 text-teal-800 rounded-full px-2 py-0.5">diarrea · 6/10</span>
+        
+      </div>
+      <div class="text-xs text-slate-500 mt-2">Ánimo 2/5 · Sueño 2/5 · Energía 2/5</div>
+      
+    </div>
+    
+  </li>
+  
+  <li class="ml-5">
+    <span class="absolute -left-[9px] w-4 h-4 rounded-full bg-teal-500"></span>
+    <div class="text-xs text-slate-500">2026-05-02 · Meses</div>
+    
+    <div class="bg-white rounded-xl shadow-sm p-3 mt-1">
+      <p class="text-sm">“Gastro me dijo colon irritable. Me dio antiespasmódico, no cambió mucho.”</p>
+      <div class="flex flex-wrap gap-1 mt-2">
+        <span class="text-xs bg-teal-50 text-teal-800 rounded-full px-2 py-0.5">dolor abdominal · 5/10</span>
+        <span class="text-xs bg-slate-100 text-slate-700 rounded-full px-2 py-0.5">diagnóstico previo: colon irritable</span><span class="text-xs bg-slate-100 text-slate-700 rounded-full px-2 py-0.5">antiespasmódico sin mejoría</span>
+      </div>
+      <div class="text-xs text-slate-500 mt-2">Ánimo 2/5 · Sueño 3/5 · Energía 2/5</div>
+      
+    </div>
+    
+  </li>
+  
+  <li class="ml-5">
+    <span class="absolute -left-[9px] w-4 h-4 rounded-full bg-teal-500"></span>
+    <div class="text-xs text-slate-500">2026-03-20 · Meses</div>
+    
+    <div class="bg-white rounded-xl shadow-sm p-3 mt-1">
+      <p class="text-sm">“Me hincho después de comer, sobre todo pastas y pan. Dolor de panza tipo retorcijón.”</p>
+      <div class="flex flex-wrap gap-1 mt-2">
+        <span class="text-xs bg-teal-50 text-teal-800 rounded-full px-2 py-0.5">distensión abdominal · 6/10</span><span class="text-xs bg-teal-50 text-teal-800 rounded-full px-2 py-0.5">dolor cólico · 5/10</span>
+        <span class="text-xs bg-slate-100 text-slate-700 rounded-full px-2 py-0.5">pastas</span><span class="text-xs bg-slate-100 text-slate-700 rounded-full px-2 py-0.5">pan</span>
+      </div>
+      <div class="text-xs text-slate-500 mt-2">Ánimo 3/5 · Sueño 3/5 · Energía 2/5</div>
+      
+    </div>
+    
+  </li>
+  
+  <li class="ml-5">
+    <span class="absolute -left-[9px] w-4 h-4 rounded-full bg-slate-800"></span>
+    <div class="text-xs text-slate-500">2026-02-20</div>
+    
+    <div class="bg-white rounded-xl shadow-sm p-3 mt-1 border-l-4 border-slate-800">
+      <p class="text-sm font-semibold">📄 Hemograma y química básica</p>
+      <p class="text-xs text-slate-500">🏥 Hospital Provincial de Rosario (público)</p>
+      <p class="text-sm text-slate-600 mt-1">Todo dentro del rango de referencia: informado como normal.</p>
+      <div class="flex flex-wrap gap-1 mt-2">
+        
+        
+        <span class="text-xs rounded-full px-2 py-0.5 bg-amber-100 text-amber-800 font-semibold"
+          title="Referencia 12-16 · Óptimo 13-15.5">
+          ↓
+          Hemoglobina 12.3 g/dL · bajo del óptimo</span>
+        
+        
+        <span class="text-xs rounded-full px-2 py-0.5 bg-amber-100 text-amber-800 font-semibold"
+          title="Referencia 15-150 · Óptimo 50-150">
+          ↓
+          Ferritina 22 ng/mL · bajo del óptimo</span>
+        
+        
+        <span class="text-xs rounded-full px-2 py-0.5 bg-slate-100 text-slate-600"
+          title="Referencia 0.4-4.0 · Óptimo 1-2.5">
+          
+          TSH 2.1 mUI/L</span>
+        
+        
+        <span class="text-xs rounded-full px-2 py-0.5 bg-slate-100 text-slate-600"
+          title="Referencia 70-110 · Óptimo 75-95">
+          
+          Glucemia 88 mg/dL</span>
+        
+      </div>
+    </div>
+    
+  </li>
+  
+  <li class="ml-5">
+    <span class="absolute -left-[9px] w-4 h-4 rounded-full bg-teal-500"></span>
+    <div class="text-xs text-slate-500">2026-02-12 · Semanas</div>
+    
+    <div class="bg-white rounded-xl shadow-sm p-3 mt-1">
+      <p class="text-sm">“Muy cansada hace semanas, me cuesta levantarme. El clínico dijo que es estrés.”</p>
+      <div class="flex flex-wrap gap-1 mt-2">
+        <span class="text-xs bg-teal-50 text-teal-800 rounded-full px-2 py-0.5">fatiga · 7/10</span>
+        <span class="text-xs bg-slate-100 text-slate-700 rounded-full px-2 py-0.5">estrés laboral</span><span class="text-xs bg-slate-100 text-slate-700 rounded-full px-2 py-0.5">consulta clínico: &#39;estrés&#39;</span>
+      </div>
+      <div class="text-xs text-slate-500 mt-2">Ánimo 2/5 · Sueño 2/5 · Energía 1/5</div>
+      
+    </div>
+    
+  </li>
+  
+</ol>
+
+
+</main>
+  <footer class="max-w-3xl mx-auto px-4 pb-8 text-xs text-slate-500 no-print">
+    Rótula no diagnostica ni reemplaza a tu médico. Ordena tu información para que la consulta rinda más.
+    Tus datos son tuyos: la información de la comunidad se usa solo de forma anónima y con tu consentimiento.
+  </footer>
+<script>
+  // Dictado por voz con la Web Speech API del navegador (Chrome / Edge / Android).
+  function dictar(btn, targetId, continuo) {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) { alert("Tu navegador no soporta dictado. Probá con Chrome."); return; }
+    if (btn._rec) { btn._rec.stop(); return; }
+    const rec = new SR(), target = document.getElementById(targetId), base = target.value;
+    rec.lang = "es-AR"; rec.interimResults = true; rec.continuous = !!continuo;
+    rec.onresult = e => {
+      let t = ""; for (const r of e.results) t += r[0].transcript + " ";
+      target.value = (base ? base + " " : "") + t.trim();
+    };
+    rec.onend = () => { btn._rec = null; btn.classList.remove("animate-pulse", "bg-red-600"); };
+    btn._rec = rec; btn.classList.add("animate-pulse", "bg-red-600"); rec.start();
+  }
+</script>
+</body>
+</html>
