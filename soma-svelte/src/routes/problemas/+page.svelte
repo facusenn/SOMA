@@ -1,7 +1,8 @@
 <script>
 	import { invalidate } from '$app/navigation';
 	import Icon from '$lib/Icon.svelte';
-	import { avisar } from '$lib/toast.svelte.js';
+	import { avisar, avisarError, cerrar } from '$lib/toast.svelte.js';
+	import { api } from '$lib/api.js';
 	import { fechaLarga, hora, fechaCorta } from '$lib/ui.js';
 
 	let { data } = $props();
@@ -32,21 +33,26 @@
 
 	async function actualizar() {
 		cargando = true;
+		const id = avisar('Esto puede tardar unos 30 segundos.', 'info', { titulo: 'Analizando todo tu historial', duracion: 0 });
 		try {
-			const res = await fetch('/api/analisis', { method: 'POST' });
-			if (!res.ok) throw new Error((await res.json().catch(() => ({}))).message ?? 'Error');
+			const r = await api('/api/analisis', { method: 'POST' });
 			await invalidate('soma:db');
-			avisar('Análisis actualizado con todo tu historial');
+			avisar(`${r.items.length} posibilidades ordenadas, con qué estudio hacerte y qué decirle al médico.`, 'ok', { titulo: 'Análisis actualizado', id });
 		} catch (e) {
-			avisar(e.message, 'error');
+			cerrar(id);
+			avisarError(e, 'No se pudo actualizar el análisis');
 		} finally {
 			cargando = false;
 		}
 	}
 
-	async function copiar(texto, msg = 'Copiado') {
-		await navigator.clipboard.writeText(texto);
-		avisar(msg);
+	async function copiar(texto, msg = 'Frase copiada') {
+		try {
+			await navigator.clipboard.writeText(texto);
+			avisar('Pegala donde quieras o mostrásela al médico.', 'ok', { titulo: msg });
+		} catch {
+			avisar('Tu navegador no dejó copiar. Seleccioná el texto y copialo a mano.', 'error', { titulo: 'No se pudo copiar' });
+		}
 	}
 
 	function copiarTodo() {

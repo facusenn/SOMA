@@ -12,8 +12,9 @@ export function GET() {
 
 /** Registra un evento a partir de texto libre (dictado o escrito). */
 export async function POST({ request }) {
-	const { texto } = await request.json();
-	if (!texto?.trim()) error(400, 'Falta el texto');
+	const { texto } = await request.json().catch(() => ({}));
+	if (!texto?.trim()) error(400, 'No llegó ningún texto para registrar.');
+	if (texto.length > 3000) error(400, 'El registro es muy largo. Dividilo en partes más cortas.');
 	const ahora = ahoraAR();
 	let datos;
 	try {

@@ -1,29 +1,36 @@
 import { invalidate } from '$app/navigation';
-import { avisar } from '$lib/toast.svelte.js';
+import { avisar, avisarError } from '$lib/toast.svelte.js';
+import { api, validarArchivo } from '$lib/api.js';
 import { ui } from '$lib/estado.svelte.js';
 import { TIPOS } from '$lib/ui.js';
 
 export const CANCELAR = 110;
 
+const ERRORES_VOZ = {
+	'not-allowed': ['Permiso de micrófono bloqueado', 'Habilitalo desde el candado de la barra de direcciones y probá de nuevo.'],
+	'service-not-allowed': ['Permiso de micrófono bloqueado', 'Habilitalo desde el candado de la barra de direcciones y probá de nuevo.'],
+	'audio-capture': ['No encontramos un micrófono', 'Conectá uno o revisá la configuración de sonido.'],
+	network: ['El dictado necesita internet', 'El navegador usa un servicio en línea para pasar tu voz a texto.'],
+	'language-not-supported': ['Idioma no disponible', 'Tu navegador no tiene dictado en español. Escribilo en la barra.']
+};
+
 /** Registra un evento a partir de texto y refresca la app. */
 export async function registrar(texto) {
 	ui.procesando = texto;
 	try {
-		const res = await fetch('/api/eventos', {
+		const ev = await api('/api/eventos', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ texto })
 		});
-		if (!res.ok) throw new Error();
-		const ev = await res.json();
 		ui.ultimoId = ev.id;
 		ui.ultimo = ev;
 		if (ev.tipo === 'estudio') ui.pendienteEstudio = ev;
 		await invalidate('soma:db');
-		avisar(`Registrado en ${TIPOS[ev.tipo].label}`);
+		avisar(ev.titulo, 'ok', { titulo: `Guardado en ${TIPOS[ev.tipo].label}` });
 		return ev;
-	} catch {
-		avisar('No se pudo registrar. Probá de nuevo.', 'error');
+	} catch (e) {
+		avisarError(e, 'No se pudo registrar');
 	} finally {
 		ui.procesando = null;
 	}
@@ -32,19 +39,24 @@ export async function registrar(texto) {
 /** Sube un estudio; si hay un evento de estudio pendiente, lo vincula. */
 export async function subirEstudio(archivo) {
 	if (!archivo) return;
+	try {
+		validarArchivo(archivo);
+	} catch (e) {
+		return avisarError(e);
+	}
 	ui.subiendo = true;
 	const form = new FormData();
 	form.append('archivo', archivo);
 	if (ui.pendienteEstudio) form.append('evento_id', ui.pendienteEstudio.id);
 	try {
-		const res = await fetch('/api/estudios', { method: 'POST', body: form });
-		if (!res.ok) throw new Error();
-		const est = await res.json();
+		const est = await api('/api/estudios', { method: 'POST', body: form });
 		ui.pendienteEstudio = null;
 		await invalidate('soma:db');
-		avisar(`Estudio guardado: ${est.titulo}`);
-	} catch {
-		avisar('No se pudo subir el estudio', 'error');
+		if (est.valores?.length)
+			avisar(`${est.valores.length} valores leídos y ordenados`, 'ok', { titulo: `Estudio guardado: ${est.titulo}` });
+		else avisar(est.resumen, 'aviso', { titulo: 'Estudio guardado sin valores' });
+	} catch (e) {
+		avisarError(e, 'No se pudo subir el estudio');
 	} finally {
 		ui.subiendo = false;
 	}
@@ -84,7 +96,11 @@ export class Dictado {
 			this.transcripcion = (this.#acumulado + ' ' + texto).replace(/\s+/g, ' ').trim();
 		};
 		this.#rec.onerror = (e) => {
-			if (e.error === 'not-allowed') avisar('Necesitamos permiso para usar el micrófono', 'error');
+			const err = ERRORES_VOZ[e.error];
+			if (!err) return;
+			this.#cancelado = true;
+			this.#sostenido = false;
+			avisar(err[1], 'error', { titulo: err[0], id: 'voz' });
 		};
 		this.#rec.onend = () => {
 			// Chrome corta solo tras un silencio: si se sigue manteniendo apretado, sigue escuchando.
@@ -99,8 +115,16 @@ export class Dictado {
 	}
 
 	presionar = (e) => {
+		if (!window.isSecureContext) {
+			avisar('Abrí SOMA con https:// para poder usar el micrófono.', 'error', { titulo: 'El micrófono necesita una conexión segura', id: 'voz' });
+			return;
+		}
 		if (!Dictado.soportado()) {
-			avisar('Tu navegador no soporta dictado. Probá con Chrome o escribilo.', 'error');
+			avisar('Usá Chrome, Edge o Safari, o escribí lo que te pasó.', 'aviso', { titulo: 'Este navegador no tiene dictado', id: 'voz' });
+			return;
+		}
+		if (!navigator.onLine) {
+			avisar('El dictado necesita internet para pasar tu voz a texto.', 'error', { titulo: 'Sin conexión', id: 'voz' });
 			return;
 		}
 		e.preventDefault();
@@ -138,7 +162,7 @@ export class Dictado {
 		this.#sostenido = false;
 		if (Date.now() - this.#inicio < 400 && !this.transcripcion) {
 			this.#cancelado = true;
-			avisar('Mantené apretado el micrófono para hablar');
+			avisar('Mantenelo apretado mientras hablás y soltalo al terminar.', 'info', { titulo: 'Mantené apretado el micrófono', id: 'voz' });
 		}
 		clearInterval(this.#reloj);
 		this.#rec?.stop();
@@ -151,7 +175,7 @@ export class Dictado {
 		this.transcripcion = '';
 		if (this.#cancelado) return;
 		if (dicho) registrar(dicho);
-		else avisar('No te escuché. Probá de nuevo.', 'error');
+		else avisar('Hablá cerca del micrófono mientras lo mantenés apretado.', 'aviso', { titulo: 'No te escuché', id: 'voz' });
 	}
 }
 

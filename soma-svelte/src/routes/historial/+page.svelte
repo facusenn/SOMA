@@ -3,7 +3,8 @@
 	import Icon from '$lib/Icon.svelte';
 	import EventCard from '$lib/EventCard.svelte';
 	import { ui } from '$lib/estado.svelte.js';
-	import { avisar } from '$lib/toast.svelte.js';
+	import { avisar, avisarError } from '$lib/toast.svelte.js';
+	import { api } from '$lib/api.js';
 	import { TIPOS, diaAR, etiquetaDia } from '$lib/ui.js';
 
 	let { data } = $props();
@@ -41,20 +42,28 @@
 
 	async function borrar(ev) {
 		if (!confirm(`¿Borrar “${ev.titulo}”?`)) return;
-		await fetch(`/api/eventos/${ev.id}`, { method: 'DELETE' });
-		await invalidate('soma:db');
-		avisar('Registro borrado');
+		try {
+			await api(`/api/eventos/${ev.id}`, { method: 'DELETE' });
+			await invalidate('soma:db');
+			avisar(ev.titulo, 'ok', { titulo: 'Registro borrado' });
+		} catch (e) {
+			avisarError(e, 'No se pudo borrar');
+		}
 	}
 
 	async function editar(ev, texto) {
-		const res = await fetch(`/api/eventos/${ev.id}`, {
-			method: 'PATCH',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ texto })
-		});
-		if (!res.ok) return avisar('No se pudo corregir', 'error');
-		await invalidate('soma:db');
-		avisar('Registro corregido');
+		try {
+			const nuevo = await api(`/api/eventos/${ev.id}`, {
+				method: 'PATCH',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ texto })
+			});
+			await invalidate('soma:db');
+			avisar(nuevo.titulo, 'ok', { titulo: 'Registro corregido' });
+		} catch (e) {
+			avisarError(e, 'No se pudo corregir');
+			throw e;
+		}
 	}
 </script>
 

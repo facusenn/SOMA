@@ -9,10 +9,16 @@
 	let guardando = $state(false);
 
 	async function guardar() {
+		if (!borrador.trim()) return;
 		guardando = true;
-		await oneditar?.(ev, borrador);
-		guardando = false;
-		editando = false;
+		try {
+			await oneditar?.(ev, borrador.trim());
+			editando = false;
+		} catch {
+			// el aviso de error ya se mostró; queda abierto para reintentar
+		} finally {
+			guardando = false;
+		}
 	}
 </script>
 

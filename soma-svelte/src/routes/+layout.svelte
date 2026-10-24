@@ -4,7 +4,10 @@
 	import { invalidate } from '$app/navigation';
 	import Icon from '$lib/Icon.svelte';
 	import Composer from '$lib/Composer.svelte';
-	import { toasts, avisar } from '$lib/toast.svelte.js';
+	import { onMount } from 'svelte';
+	import { toasts, avisar, avisarError, cerrar } from '$lib/toast.svelte.js';
+	import { api } from '$lib/api.js';
+	import Instalar from '$lib/Instalar.svelte';
 	import { ui } from '$lib/estado.svelte.js';
 	import { subirEstudio } from '$lib/dictado.svelte.js';
 
@@ -27,10 +30,43 @@
 
 	async function reiniciar() {
 		if (!confirm('¿Volver a los datos de demo? Se borra lo que registraste.')) return;
-		await fetch('/api/reset', { method: 'POST' });
-		await invalidate('soma:db');
-		avisar('Demo reiniciada');
+		try {
+			await api('/api/reset', { method: 'POST' });
+			await invalidate('soma:db');
+			avisar('Se cargaron de nuevo los datos de María.', 'ok', { titulo: 'Demo reiniciada' });
+		} catch (e) {
+			avisarError(e, 'No se pudo reiniciar');
+		}
 	}
+
+	onMount(() => {
+		const sinRed = () =>
+			avisar('Podés seguir mirando tu historia. Para registrar, esperá a que vuelva la conexión.', 'aviso', {
+				titulo: 'Sin conexión', id: 'red', duracion: 0
+			});
+		const conRed = () => avisar('Ya podés registrar de nuevo.', 'ok', { titulo: 'Conexión restablecida', id: 'red' });
+		let ultimo = 0;
+		const inesperado = (e) => {
+			console.error(e);
+			if (Date.now() - ultimo < 4000) return;
+			ultimo = Date.now();
+			avisar('Si se repite, recargá la página.', 'error', { titulo: 'Ocurrió un error inesperado', id: 'inesperado' });
+		};
+		const rechazo = (e) => inesperado(e.reason);
+		if (!navigator.onLine) sinRed();
+		addEventListener('offline', sinRed);
+		addEventListener('online', conRed);
+		addEventListener('error', inesperado);
+		addEventListener('unhandledrejection', rechazo);
+		return () => {
+			removeEventListener('offline', sinRed);
+			removeEventListener('online', conRed);
+			removeEventListener('error', inesperado);
+			removeEventListener('unhandledrejection', rechazo);
+		};
+	});
+
+	const ICONO_TOAST = { ok: 'check', info: 'info', aviso: 'alert', error: 'alert' };
 </script>
 
 <div class="app">
@@ -62,6 +98,7 @@
 				<span class="led"></span>
 				{data.conIA ? 'IA conectada' : 'Modo demo (sin IA)'}
 			</span>
+			<Instalar />
 			<button class="link" onclick={reiniciar}><Icon name="refresh" size={14} /> Reiniciar demo</button>
 			<p class="legal">SOMA no diagnostica ni receta. Ordena tu información para hablarla con tu médico.</p>
 		</div>
@@ -69,7 +106,10 @@
 
 	<header class="superior">
 		<a href="/" class="logo"><img src="/favicon.svg" alt="" width="28" height="28" /><span>SOMA</span></a>
-		<span class="avatar chico">{iniciales}</span>
+		<div class="derecha">
+			<Instalar compacto />
+			<span class="avatar chico">{iniciales}</span>
+		</div>
 	</header>
 
 	<main>
@@ -95,7 +135,7 @@
 
 <input
 	type="file"
-	accept="application/pdf,image/*"
+	accept="application/pdf,image/jpeg,image/png,image/webp,image/heic,image/heif"
 	hidden
 	bind:this={inputArchivo}
 	onchange={async (e) => {
@@ -106,9 +146,14 @@
 
 <div class="toasts" aria-live="polite">
 	{#each toasts as t (t.id)}
-		<div class="toast" class:error={t.tipo === 'error'}>
-			<Icon name={t.tipo === 'error' ? 'alert' : 'check'} size={16} />
-			{t.texto}
+		<div class="toast {t.tipo}" role={t.tipo === 'error' ? 'alert' : 'status'}>
+			<span class="t-ico"><Icon name={t.id === 'red' && t.tipo === 'aviso' ? 'wifioff' : ICONO_TOAST[t.tipo] ?? 'info'} size={16} /></span>
+			<div class="t-txt">
+				{#if t.titulo}<strong>{t.titulo}</strong>{/if}
+				<span>{t.texto}</span>
+			</div>
+			<button class="t-x" onclick={() => cerrar(t.id)} aria-label="Cerrar aviso"><Icon name="x" size={14} /></button>
+			{#if t.duracion}<span class="t-barra" style="animation-duration:{t.duracion}ms"></span>{/if}
 		</div>
 	{/each}
 </div>
@@ -152,13 +197,30 @@
 
 	.superior, .pestanas { display: none; }
 
-	.toasts { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); display: grid; gap: 8px; z-index: 100; }
-	.toast {
-		display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 12px;
-		background: var(--ink); color: white; font-size: 14px; font-weight: 500; box-shadow: var(--shadow-lg);
-		animation: rise 0.2s ease-out;
+	.toasts {
+		position: fixed; top: 20px; right: 20px; z-index: 100; display: grid; gap: 10px;
+		width: min(380px, calc(100vw - 32px));
 	}
-	.toast.error { background: #b91c1c; }
+	.toast {
+		--c: #059669; --cbg: #e8f8f1;
+		position: relative; overflow: hidden; display: flex; gap: 12px; align-items: flex-start;
+		padding: 12px 12px 14px 14px; border-radius: 14px; background: var(--surface);
+		border: 1px solid var(--line); box-shadow: 0 12px 32px rgba(15, 23, 42, 0.16);
+		animation: entra 0.28s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+	}
+	.toast.info { --c: #2563eb; --cbg: #eef4ff; }
+	.toast.aviso { --c: #d97706; --cbg: #fff6e6; }
+	.toast.error { --c: #dc2626; --cbg: #fdeeee; }
+	.toast::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--c); }
+	@keyframes entra { from { opacity: 0; transform: translateY(-8px) scale(0.97); } to { opacity: 1; transform: none; } }
+	.t-ico { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; flex: none; background: var(--cbg); color: var(--c); }
+	.t-txt { flex: 1; min-width: 0; display: grid; gap: 1px; font-size: 13.5px; line-height: 1.4; color: var(--ink-2); padding-top: 4px; }
+	.t-txt strong { font-size: 14px; color: var(--ink); }
+	.t-x { padding: 5px; border-radius: 8px; color: var(--muted); flex: none; }
+	.t-x:hover { background: var(--surface-2); color: var(--ink); }
+	.t-barra { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: var(--c); opacity: 0.35; transform-origin: left; animation: consume linear forwards; }
+	@keyframes consume { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+	.derecha { display: flex; align-items: center; gap: 10px; }
 
 	@media (max-width: 900px) {
 		.app { grid-template-columns: 1fr; }
@@ -178,5 +240,6 @@
 		.pestanas a { display: grid; justify-items: center; gap: 2px; font-size: 11px; font-weight: 500; color: var(--muted); padding: 4px 0; }
 		.pestanas a.activo { color: var(--brand); font-weight: 600; }
 		main { padding-bottom: 64px; }
+		.toasts { top: 70px; left: 16px; right: 16px; width: auto; }
 	}
 </style>

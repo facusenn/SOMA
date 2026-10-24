@@ -25,12 +25,16 @@ npm run lan               # https://<ip-de-esta-máquina>:4443
 Usa un certificado autofirmado (aceptar la advertencia del navegador): sin HTTPS los navegadores no habilitan
 el micrófono cuando se entra desde otro equipo.
 
-## Producción (servidor)
+## Producción (Render u otro servidor)
 
-```
-npm run build
-PORT=3000 ORIGIN=https://tu-dominio node build
-```
+- Root directory: `soma-svelte`
+- Build command: `npm ci && npm run build`
+- Start command: `npm start` (ya incluye `BODY_SIZE_LIMIT=20M` para subir fotos de estudios y los headers del proxy
+  para que SvelteKit acepte los envíos de archivos detrás de HTTPS)
+- Node: 22 (`.nvmrc`)
+
+Con HTTPS real la app se puede instalar como PWA (Chrome/Edge: botón "Instalar app"; iPhone: Compartir → Agregar a inicio).
+En Render el disco es efímero: `data/db.json` vuelve al seed en cada deploy.
 
 Variables: `OPENROUTER_API_KEY`, `OPENROUTER_MODEL` (análisis y estudios, por defecto `anthropic/claude-sonnet-5.5`),
 `OPENROUTER_MODEL_FAST` (registro de eventos, por defecto `anthropic/claude-haiku-5.5`).

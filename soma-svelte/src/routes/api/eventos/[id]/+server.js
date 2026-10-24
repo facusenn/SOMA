@@ -12,10 +12,11 @@ export function DELETE({ params }) {
 
 /** Corrige el texto de un evento y lo vuelve a procesar. */
 export async function PATCH({ params, request }) {
-	const { texto } = await request.json();
+	const { texto } = await request.json().catch(() => ({}));
+	if (!texto?.trim()) error(400, 'El texto corregido está vacío.');
 	const db = leer();
 	const i = db.eventos.findIndex((e) => e.id === params.id);
-	if (i < 0) error(404, 'No existe');
+	if (i < 0) error(404, 'Ese registro ya no existe. Recargá la página.');
 	const viejo = db.eventos[i];
 	let datos;
 	try {

@@ -11,9 +11,12 @@ export function GET() {
 
 /** Sube un estudio (PDF o imagen), extrae los valores con IA y lo suma a la historia. */
 export async function POST({ request }) {
-	const form = await request.formData();
+	const form = await request.formData().catch(() => error(400, 'No se pudo leer el archivo enviado.'));
 	const archivo = form.get('archivo');
-	if (!(archivo instanceof File) || !archivo.size) error(400, 'Falta el archivo');
+	if (!(archivo instanceof File) || !archivo.size) error(400, 'No llegó ningún archivo. Elegí un PDF o una foto.');
+	if (archivo.type && !/^(application\/pdf|image\/)/.test(archivo.type))
+		error(400, 'Formato no soportado. Subí el estudio en PDF o como foto.');
+	if (archivo.size > 15 * 1024 * 1024) error(413, 'El máximo es 15 MB. Probá con una foto más liviana.');
 	const id = nuevoId('s');
 	const ext = path.extname(archivo.name) || '';
 	const buf = Buffer.from(await archivo.arrayBuffer());
